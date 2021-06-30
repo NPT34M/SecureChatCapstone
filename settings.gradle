@@ -1,0 +1,2 @@
+rootProject.name = "E2EE_MVP"
+include ':app'

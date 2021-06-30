@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "190722569511",
+    "project_id": "e2ee-mvp-try",
+    "storage_bucket": "e2ee-mvp-try.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:190722569511:android:d236b950b68c8cf1412502",
+        "android_client_info": {
+          "package_name": "com.example.e2ee_mvp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190722569511-dge6pql617h6u236qn5jjkv01qeu01ls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhmhm_2T-6TzWviPQqb4fE0iEad13m1Bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190722569511-dge6pql617h6u236qn5jjkv01qeu01ls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
