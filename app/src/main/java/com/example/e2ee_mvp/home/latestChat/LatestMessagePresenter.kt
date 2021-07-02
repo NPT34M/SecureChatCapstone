@@ -44,6 +44,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
 
     override fun getUserFromMessage(listChatMessage: List<ChatMessage>) {
         var list = listChatMessage.sortedByDescending { it.timestamp }
+
         val latestMessageList = mutableListOf<LatestMessageModel>()
         list.forEach {
             var chatPartnerId: String
