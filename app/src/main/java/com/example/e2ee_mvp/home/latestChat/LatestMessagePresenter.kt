@@ -23,7 +23,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
     override fun listenForLatestMessage() {
 //        fetchCurrentUserLogin()
         val fromId = firebaseAuth?.uid
-        val ref = firebaseDB.getReference("/latest-messages/$fromId")
+        val ref = firebaseDB.getReference("/latest-messages/$fromId").orderByChild("timestamp")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val latestMessageList = mutableListOf<ChatMessage>()
@@ -43,7 +43,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
     }
 
     override fun getUserFromMessage(listChatMessage: List<ChatMessage>) {
-        var list = listChatMessage
+        var list = listChatMessage.sortedByDescending { it.timestamp }
         val latestMessageList = mutableListOf<LatestMessageModel>()
         list.forEach {
             var chatPartnerId: String
@@ -84,8 +84,8 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
         })
     }
 
-    override fun verify(): String {
-        return firebaseAuth.uid.toString()
+    override fun verify(): Boolean {
+        return firebaseAuth.uid == null
     }
 
     override fun start() {

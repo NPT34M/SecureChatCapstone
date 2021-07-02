@@ -50,16 +50,4 @@ class ContactFragment() : Fragment(R.layout.fragment_contact), ContactContract.V
             callback = it
         }
     }
-
-//    class UserItem(val user: User) : Item<ViewHolder>() {
-//        override fun bind(viewHolder: ViewHolder, position: Int) {
-//            Picasso.get().load(user.profileImage.toUri()).into(viewHolder.itemView.imgContactUser)
-//            viewHolder.itemView.tvContactUsername.text = user.username
-//        }
-//
-//        override fun getLayout(): Int {
-//            return R.layout.contact_user_row
-//        }
-//
-//    }
 }

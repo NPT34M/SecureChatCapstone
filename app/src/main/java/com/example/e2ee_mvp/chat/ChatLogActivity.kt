@@ -14,7 +14,6 @@ import com.google.firebase.database.ValueEventListener
 
 class ChatLogActivity : AppCompatActivity() {
 
-    var currentUser: User? = null
     var toUser: User? = null
     override fun onBackPressed() {
         super.onBackPressed()

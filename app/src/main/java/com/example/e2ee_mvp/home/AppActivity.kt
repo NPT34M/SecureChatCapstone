@@ -20,7 +20,7 @@ import kotlinx.android.synthetic.main.activity_app.*
 class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFragment.CallBack,
     LatestMessageFragment.CallBack {
     companion object {
-        val USER_KEY = "USER_KEY"
+        const val USER_KEY = "USER_KEY"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {

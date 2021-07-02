@@ -38,7 +38,6 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
 
     fun uploadPhotoToFirebaseStorage(uri: Uri?) {
         if (uri == null) {
-//            view.registerFail("Please choose your image!!!")
             return
         }
         val fileName = UUID.randomUUID().toString()

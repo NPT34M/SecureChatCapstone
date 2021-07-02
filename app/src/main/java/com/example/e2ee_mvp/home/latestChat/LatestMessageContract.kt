@@ -14,7 +14,7 @@ interface LatestMessageContract {
     interface Presenter : BasePresenter {
         fun listenForLatestMessage()
         fun getUserFromMessage(listChatMessage: List<ChatMessage>)
-        fun verify():String
+        fun verify():Boolean
         fun fetchCurrentUserLogin()
     }
 }
