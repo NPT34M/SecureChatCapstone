@@ -9,6 +9,7 @@ import com.google.firebase.database.*
 
 class LatestMessagePresenter(val view: LatestMessageContract.View) :
     LatestMessageContract.Presenter {
+
     init {
         view.presenter = this
     }
@@ -18,12 +19,12 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
     }
 
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private val firebaseDB = FirebaseDatabase.getInstance()
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun listenForLatestMessage() {
 //        fetchCurrentUserLogin()
         val fromId = firebaseAuth?.uid
-        val ref = firebaseDB.getReference("/latest-messages/$fromId").orderByChild("timestamp")
+        val ref = firebaseDatabase.getReference("/latest-messages/$fromId").orderByChild("timestamp")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val latestMessageList = mutableListOf<ChatMessage>()
@@ -53,7 +54,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
             } else {
                 chatPartnerId = it.fromId
             }
-            val ref = firebaseDB.getReference("/users/${chatPartnerId}")
+            val ref = firebaseDatabase.getReference("/users/${chatPartnerId}")
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val partnerUser = snapshot.getValue(User::class.java)
@@ -61,7 +62,6 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
                     latestMessageList.add(latestMess)
                     view.showLatestMessage(latestMessageList)
                 }
-
 
                 override fun onCancelled(error: DatabaseError) {
                 }
@@ -72,7 +72,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
 
     override fun fetchCurrentUserLogin() {
         val uid = firebaseAuth.uid
-        val ref = firebaseDB.getReference("/users/${uid}")
+        val ref = firebaseDatabase.getReference("/users/${uid}")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 currentLoginUser = snapshot.getValue(User::class.java)

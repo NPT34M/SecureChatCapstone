@@ -3,6 +3,7 @@ package com.example.e2ee_mvp.search
 import com.example.e2ee_mvp.BasePresenter
 import com.example.e2ee_mvp.BaseView
 import com.example.e2ee_mvp.model.User
+import com.example.e2ee_mvp.model.UserFriend
 
 interface SearchContract {
     interface View : BaseView<Presenter> {
@@ -12,6 +13,8 @@ interface SearchContract {
     }
 
     interface Presenter : BasePresenter {
-        fun addToContact()
+        fun getCurrentUserFriend()
+        fun getUsers(friends: HashMap<String, UserFriend?>)
+        fun addToContact(friendId: String)
     }
 }

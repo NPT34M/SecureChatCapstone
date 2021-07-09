@@ -1,8 +1,6 @@
 package com.example.e2ee_mvp.home.contact
 
-import android.content.Intent
 import android.util.Log
-import com.example.e2ee_mvp.chat.ChatLogActivity
 import com.example.e2ee_mvp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

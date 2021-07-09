@@ -9,14 +9,16 @@ import com.example.e2ee_mvp.R
 import com.example.e2ee_mvp.model.LatestMessageModel
 import com.example.e2ee_mvp.model.User
 import kotlinx.android.synthetic.main.fragment_latest_message.*
+import javax.inject.Inject
 
-class LatestMessageFragment() : Fragment(R.layout.fragment_latest_message),
+class LatestMessageFragment : Fragment(R.layout.fragment_latest_message),
     LatestMessageContract.View {
 
+    @Inject
     override lateinit var presenter: LatestMessageContract.Presenter
 
     interface CallBack {
-        fun signoutFromLatest()
+        fun signOutFromLatest()
         fun latestToChatLog(user: User)
     }
 
@@ -32,12 +34,14 @@ class LatestMessageFragment() : Fragment(R.layout.fragment_latest_message),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+//        if (this::presenter.isInitialized) {
         presenter.fetchCurrentUserLogin()
         if (presenter.verify()) {
-            callBack?.signoutFromLatest()
+            callBack?.signOutFromLatest()
             return
         }
         presenter.listenForLatestMessage()
+//        }
         recyclerViewLatestMessage.adapter = adapter
     }
 
@@ -51,6 +55,10 @@ class LatestMessageFragment() : Fragment(R.layout.fragment_latest_message),
         (requireActivity() as CallBack)?.let {
             callBack = it
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
     }
 
 }

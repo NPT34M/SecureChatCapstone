@@ -25,4 +25,5 @@
         android:text="This is my message"
         app:layout_constraintEnd_toStartOf="@+id/imgFromRow"
         app:layout_constraintTop_toTopOf="@+id/imgFromRow" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
