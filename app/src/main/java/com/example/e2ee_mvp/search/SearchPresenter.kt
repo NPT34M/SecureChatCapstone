@@ -42,7 +42,7 @@ class SearchPresenter(val view: SearchContract.View) : SearchContract.Presenter 
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     val user = it.getValue(User::class.java)
-                    if (!(user?.uid in friends.keys) && user != null) {
+                    if (!(user?.uid in friends.keys) && user != null && user?.uid != firebaseAuth?.uid) {
                         users.add(user)
                     }
                 }
@@ -56,9 +56,12 @@ class SearchPresenter(val view: SearchContract.View) : SearchContract.Presenter 
 
     override fun addToContact(friendId: String) {
         val currentUId = firebaseAuth.currentUser?.uid
-        val userFriend = UserFriend(friendId)
-        val ref = firebaseDatabase.getReference("/users/$currentUId/friends/$friendId").push()
-        ref.setValue(userFriend)
+        val myFriend = UserFriend(friendId)
+        val otherFriend = UserFriend(currentUId!!)
+        val refMy = firebaseDatabase.getReference("/users/$currentUId/friends/$friendId")
+        refMy.setValue(myFriend)
+        val refFriend = firebaseDatabase.getReference("/users/$friendId/friends/$currentUId")
+        refFriend.setValue(otherFriend)
     }
 
     override fun start() {
