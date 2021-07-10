@@ -17,7 +17,7 @@ class SearchPresenter(val view: SearchContract.View) : SearchContract.Presenter 
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
-    override fun getCurrentUserFriend() {
+    override fun getCurrentUserFriend(text:String) {
         val currentUId = firebaseAuth.currentUser?.uid
         val friends = HashMap<String, UserFriend?>()
         val ref = firebaseDatabase.getReference("/users/$currentUId/friends")
@@ -26,12 +26,35 @@ class SearchPresenter(val view: SearchContract.View) : SearchContract.Presenter 
                 snapshot.children.forEach {
                     friends.put(it.key!!, it.getValue(UserFriend::class.java))
                 }
-                getUsers(friends)
+                if(text==""){
+                    getUsers(friends)
+                }else{
+                    getUsersWithText(text,friends)
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
             }
 
+        })
+    }
+
+    override fun getUsersWithText(text: String, friends: HashMap<String, UserFriend?>) {
+        val users = mutableListOf<User>()
+        val ref = firebaseDatabase.getReference("/users").orderByChild("username").startAt(text).endAt(text+"\uf8ff")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    val user = it.getValue(User::class.java)
+                    if (!(user?.uid in friends.keys) && user != null && user?.uid != firebaseAuth?.uid) {
+                        users.add(user)
+                    }
+                }
+                view.showUser(users)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
         })
     }
 
