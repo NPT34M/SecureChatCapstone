@@ -34,14 +34,14 @@ class LatestMessageFragment : Fragment(R.layout.fragment_latest_message),
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        if (this::presenter.isInitialized) {
-        presenter.fetchCurrentUserLogin()
-        if (presenter.verify()) {
-            callBack?.signOutFromLatest()
-            return
+        if (this::presenter.isInitialized) {
+            presenter.fetchCurrentUserLogin()
+            if (presenter.verify()) {
+                callBack?.signOutFromLatest()
+                return
+            }
+            presenter.listenForLatestMessage()
         }
-        presenter.listenForLatestMessage()
-//        }
         recyclerViewLatestMessage.adapter = adapter
     }
 
