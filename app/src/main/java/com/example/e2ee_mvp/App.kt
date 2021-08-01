@@ -1,6 +1,7 @@
 package com.example.e2ee_mvp
 
 import android.app.Application
+import androidx.navigation.fragment.NavHostFragment
 import com.google.firebase.FirebaseApp
 
 class App : Application() {

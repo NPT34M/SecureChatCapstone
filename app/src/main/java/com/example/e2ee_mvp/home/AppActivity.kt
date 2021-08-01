@@ -3,6 +3,11 @@ package com.example.e2ee_mvp.home
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.navigation.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupActionBarWithNavController
+import androidx.navigation.ui.setupWithNavController
 import com.example.e2ee_mvp.authen.MainActivity
 import com.example.e2ee_mvp.R
 import com.example.e2ee_mvp.adapter.ViewPageAdapter
@@ -14,6 +19,7 @@ import com.example.e2ee_mvp.home.latestChat.LatestMessageFragment
 import com.example.e2ee_mvp.model.User
 import com.example.e2ee_mvp.home.my.MyProfileFragment
 import com.example.e2ee_mvp.home.my.MyProfilePresenter
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_app.*
 
@@ -26,6 +32,8 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
+
+        setSupportActionBar(myToolbar)
         val latestMessageFragment = LatestMessageFragment().also {
             LatestMessagePresenter(it)
         }
@@ -35,14 +43,40 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
         val my = MyProfileFragment().also {
             MyProfilePresenter(it)
         }
-        val viewPageAdapter = ViewPageAdapter(this)
-        viewPageAdapter.addFragment(latestMessageFragment, "Latest Message")
-        viewPageAdapter.addFragment(contactFragment, "Contact")
-        viewPageAdapter.addFragment(my, "Profile")
-        viewPagerApp.adapter = viewPageAdapter
-        TabLayoutMediator(tabLayoutApp, viewPagerApp) { tab, position ->
-            tab.text = viewPageAdapter.getTitle(position)
-        }.attach()
+//        val viewPageAdapter = ViewPageAdapter(this)
+//        viewPageAdapter.addFragment(latestMessageFragment, "Latest Message")
+//        viewPageAdapter.addFragment(contactFragment, "Contact")
+//        viewPageAdapter.addFragment(my, "Profile")
+//        viewPagerApp.adapter = viewPageAdapter
+//        TabLayoutMediator(tabLayoutApp, viewPagerApp) { tab, position ->
+//            tab.text = viewPageAdapter.getTitle(position)
+//        }.attach()
+setSupportActionBar(myToolbar)
+        makeCurrentFragment(latestMessageFragment)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.latestMessageFragment -> {
+                    makeCurrentFragment(latestMessageFragment)
+                    supportActionBar?.setTitle("Messengers")
+                }
+                R.id.contactFragment -> {
+                    makeCurrentFragment(contactFragment)
+                    supportActionBar?.setTitle("Contacts")
+                }
+                R.id.myProfileFragment -> {
+                    makeCurrentFragment(my)
+                    supportActionBar?.setTitle("My Profile")
+                }
+            }
+            true
+        }
+
+    }
+
+
+    private fun makeCurrentFragment(fragment: Fragment) {
+        supportFragmentManager.beginTransaction().replace(R.id.frameHome, fragment).commit()
+        supportActionBar?.setTitle("Messengers")
     }
 
     override fun backToLogin() {

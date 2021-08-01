@@ -4,25 +4,24 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="16dp">
-
-    <ImageView
-        android:id="@+id/imgFromRow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@android:drawable/btn_star_big_on" />
+    android:layout_marginBottom="3dp">
 
     <TextView
         android:id="@+id/tvFromRow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/chat_from_row"
         android:maxWidth="240dp"
-        android:padding="16dp"
+        android:paddingTop="5dp"
+        android:paddingBottom="5dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:textColor="@color/white"
         android:text="This is my message"
-        app:layout_constraintEnd_toStartOf="@+id/imgFromRow"
-        app:layout_constraintTop_toTopOf="@+id/imgFromRow" />
+        android:textSize="18sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,7 +12,6 @@ import kotlinx.android.synthetic.main.fragment_latest_message.*
 
 class LatestMessageFragment() : Fragment(R.layout.fragment_latest_message),
     LatestMessageContract.View {
-
     override lateinit var presenter: LatestMessageContract.Presenter
 
     interface CallBack {

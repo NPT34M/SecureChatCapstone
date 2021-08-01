@@ -10,6 +10,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.e2ee_mvp.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_register.*
 
 class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.View {
@@ -62,6 +63,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
         edtPassword.text.clear()
         imvChooseAvatar.setImageDrawable(null)
     }
+
 
     override fun showRegisterProgress() {
         progressBar.visibility = View.VISIBLE

@@ -2,6 +2,7 @@ package com.example.e2ee_mvp.authen.register
 
 import android.net.Uri
 import android.util.Log
+import android.widget.Toast
 import com.example.e2ee_mvp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase

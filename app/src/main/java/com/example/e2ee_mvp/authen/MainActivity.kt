@@ -15,6 +15,7 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback, LoginFragme
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
         LoginFragment().also {
             LoginPresenter(it)
         }.let {
@@ -32,8 +33,14 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback, LoginFragme
     }
 
     override fun fromRegisterToMain() {
-        val intent = Intent(this, AppActivity::class.java)
-        startActivity(intent)
+//        val intent = Intent(this, AppActivity::class.java)
+//        startActivity(intent)
+        LoginFragment().also {
+            LoginPresenter(it)
+        }.let {
+            supportFragmentManager.beginTransaction().replace(R.id.frame_layout, it)
+                .addToBackStack(null).commit()
+        }
     }
 
     override fun toRegister() {

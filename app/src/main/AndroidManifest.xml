@@ -10,7 +10,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.E2EE_MVP">
-        <activity android:name=".search.SearchActivity"></activity>
+        <activity android:name=".SplashScreenActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity android:name=".search.SearchActivity" />
         <activity android:name=".FriendProfileActivity">
 
             <!-- <meta-data -->
@@ -18,9 +25,9 @@
             <!-- android:value=".AppActivity" /> -->
         </activity>
         <activity android:name=".chat.ChatLogActivity">
-<!--            <meta-data-->
-<!--                android:name="android.support.PARENT_ACTIVITY"-->
-<!--                android:value=".home.AppActivity" />-->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".home.AppActivity" />
         </activity>
         <activity android:name=".home.AppActivity">
             <intent-filter>
@@ -30,11 +37,13 @@
             </intent-filter>
         </activity>
         <activity android:name=".authen.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+            <!-- <intent-filter> -->
+            <!-- &lt;!&ndash;                <action android:name="android.intent.action.MAIN" />&ndash;&gt; -->
+
+
+            <!-- &lt;!&ndash;                <category android:name="android.intent.category.LAUNCHER" />&ndash;&gt; -->
+            <!-- </intent-filter> -->
         </activity>
     </application>
 

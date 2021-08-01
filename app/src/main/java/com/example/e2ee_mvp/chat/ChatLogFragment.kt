@@ -28,7 +28,7 @@ class ChatLogFragment(val toUser: User?) :
         adapter?.submitList(listMessage)
         Log.d("Err","$adapter")
         //scroll to bottom
-        adapter?.itemCount?.let { recyclerViewChatLog.smoothScrollToPosition(it) }
+        adapter?.itemCount?.let { recyclerViewChatLog?.smoothScrollToPosition(it) }
         clearText()
     }
 
@@ -46,7 +46,7 @@ class ChatLogFragment(val toUser: User?) :
     }
 
     override fun clearText() {
-        edtTextChatLog.text.clear()
+        edtTextChatLog?.text?.clear()
     }
 
 
