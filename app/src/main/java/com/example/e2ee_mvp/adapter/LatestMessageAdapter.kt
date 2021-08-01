@@ -39,7 +39,7 @@ class LatestMessageAdapter(val onclick: (User) -> Unit) :
         ): Any? {
             return Bundle().apply {
                 putBoolean("message", oldItem.text != newItem.text)
-                putBoolean("timestamp", oldItem.timestamp != newItem.timestamp)
+//                putBoolean("timestamp", oldItem.timestamp != newItem.timestamp)
             }
         }
     }) {
@@ -87,7 +87,6 @@ class LatestMessageAdapter(val onclick: (User) -> Unit) :
             } else {
                 messageTextView.text = if(latesMessage.text.length>17) latesMessage.text.substring(0,16)+"..." else latesMessage.text
             }
-//            messageTextView.text = latesMessage.text
             latestTime.text = convertLongToDate(latesMessage.timestamp)
         }
     }

@@ -25,7 +25,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
 //        fetchCurrentUserLogin()
         val fromId = firebaseAuth?.uid
         val ref =
-            firebaseDatabase.getReference("/latest-messages/$fromId").orderByChild("timestamp")
+            firebaseDatabase.getReference("/latest-messages/$fromId")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val latestMessageList = mutableListOf<ChatMessage>()
@@ -62,7 +62,10 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
                     val latestMess =
                         LatestMessageModel(it.id, it.text, it.image, it.timestamp, partnerUser)
                     latestMessageList.add(latestMess)
-                    view.showLatestMessage(latestMessageList)
+                    if(latestMessageList.size==list.size){
+                        showLatest(latestMessageList)
+                    }
+//                    view.showLatestMessage(latestMessageList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
@@ -70,6 +73,10 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
 
             })
         }
+    }
+
+    private fun showLatest(listLatest:List<LatestMessageModel>) {
+        view.showLatestMessage(listLatest)
     }
 
     override fun fetchCurrentUserLogin() {

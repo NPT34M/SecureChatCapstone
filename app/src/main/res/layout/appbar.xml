@@ -8,6 +8,8 @@
     android:theme="?attr/actionBarTheme"
     app:title="Welcome"
     app:menu="@menu/nav_menu_search"
+    android:textAlignment="center"
+    android:layout_marginLeft="30dp"
     app:titleTextAppearance="@style/tbToolSize"
     app:titleTextColor="#000">
 
