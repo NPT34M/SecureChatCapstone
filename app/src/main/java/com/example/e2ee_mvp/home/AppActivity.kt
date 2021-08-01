@@ -7,6 +7,7 @@ import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
 import android.widget.Toolbar
+import com.example.e2ee_mvp.FriendProfileActivity
 import com.example.e2ee_mvp.authen.MainActivity
 import com.example.e2ee_mvp.R
 import com.example.e2ee_mvp.adapter.ViewPageAdapter
@@ -18,6 +19,7 @@ import com.example.e2ee_mvp.home.latestChat.LatestMessageFragment
 import com.example.e2ee_mvp.model.User
 import com.example.e2ee_mvp.home.my.MyProfileFragment
 import com.example.e2ee_mvp.home.my.MyProfilePresenter
+import com.example.e2ee_mvp.localDB.LocalDataSource
 import com.example.e2ee_mvp.search.SearchActivity
 import com.google.android.material.tabs.TabLayoutMediator
 import kotlinx.android.synthetic.main.activity_app.*
@@ -95,11 +97,11 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
         startActivity(intent)
     }
 
-//    override fun toFriendProfile(user: User) {
-//        val intent = Intent(this, FriendProfileActivity::class.java)
-//        intent.putExtra(USER_KEY, user)
-//        startActivity(intent)
-//    }
+    override fun toFriendProfile(user: User) {
+        val intent = Intent(this, FriendProfileActivity::class.java)
+        intent.putExtra(USER_KEY, user)
+        startActivity(intent)
+    }
 
     override fun signout() {
         val intent = Intent(this, MainActivity::class.java)

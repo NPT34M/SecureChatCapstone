@@ -2,16 +2,20 @@ package com.example.e2ee_mvp.authen.register
 
 import android.net.Uri
 import android.util.Log
+import com.example.e2ee_mvp.App
+import com.example.e2ee_mvp.localDB.AppDatabase
+import com.example.e2ee_mvp.localDB.user.UserInfoLocal
 import com.example.e2ee_mvp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import java.math.BigInteger
 import java.util.*
-import java.util.concurrent.ThreadLocalRandom
 import kotlin.collections.HashMap
 
-class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Presenter {
+class RegisterPresenter(val view: RegisterContract.View) :
+    RegisterContract.Presenter {
+
     init {
         view.presenter = this
     }
@@ -40,16 +44,6 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
             }
     }
 
-    fun generatePrivateNum():BigInteger{
-        val max = BigInteger.ONE.shiftLeft(128)
-        var key:BigInteger
-        do {
-            val integer:BigInteger = BigInteger(128,ThreadLocalRandom.current())
-            key = integer.nextProbablePrime()
-        }while (key.compareTo(max)>0)
-        return key
-    }
-
     fun uploadPhotoToFirebaseStorage(uri: Uri?) {
         if (uri == null) {
             return
@@ -65,7 +59,7 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
                 ref.downloadUrl.addOnSuccessListener {
                     Log.d("DownloadURL", "File location: ${it}")
 //                    val user = User(uid, view.getUsername(), it.toString(), num)
-                    val user = User(uid, view.getUsername(), it.toString(), HashMap(),false)
+                    val user = User(uid, view.getUsername(), it.toString(), HashMap(), false)
                     saveUserToFirebaseRealTimeDB(user)
                 }
             }
@@ -80,6 +74,7 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
             .addOnSuccessListener {
                 Log.d("SaveUserSuccess", "Sucessfully save user to Firebase Database!")
 //                view.clearAll()
+//                saveUserToLocalDB(user.uid)
                 view.registerSuccess()
             }
             .addOnFailureListener {
@@ -87,6 +82,13 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
                 view.registerFail(it.message.toString())
             }
     }
+
+//    private fun saveUserToLocalDB(id: String) {
+//        val userDao = appDatabase.userInfoLocalDAO()
+//        val privateNum = BigInteger(BigInteger(App.pNumber).bitLength() - 2, Random()).toString()
+//        val user = UserInfoLocal(id, privateNum, view.getPassword2())
+//        userDao.insertNewUser(user)
+//    }
 
     override fun start() {
         return

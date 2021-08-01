@@ -12,7 +12,7 @@ interface ChatLogContract {
         fun showMessageLog(listMessage:List<ChatMessage>)
     }
     interface Presenter : BasePresenter{
-        fun performSendMessage(user: User?)
+        fun performSendMessage(user: User?,string: String,isImage:Boolean)
         fun listenForMessage(user: User?)
     }
 }

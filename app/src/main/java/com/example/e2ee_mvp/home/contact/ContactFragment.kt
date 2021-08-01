@@ -17,14 +17,17 @@ class ContactFragment() : Fragment(R.layout.fragment_contact), ContactContract.V
     interface CallBack {
         fun backToLogin()
         fun toChatLog(user: User)
-//        fun toFriendProfile(user:User)
+        fun toFriendProfile(user: User)
     }
+
     var callback: CallBack? = null
 
-    private var adapter = UserAdapter{
+    private var adapter = UserAdapter({
         callback?.toChatLog(it)
-//        callback?.toFriendProfile(it)
-    }
+    }, {
+        callback?.toFriendProfile(it)
+    })
+
     override fun showListContact(users: List<User>) {
         adapter.setData(users)
 //        Log.e("AAA","${users.size}")

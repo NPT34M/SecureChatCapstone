@@ -6,12 +6,13 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import com.example.e2ee_mvp.R
+import com.google.firebase.auth.FirebaseAuth
 import kotlinx.android.synthetic.main.fragment_login.*
 
 class LoginFragment : Fragment(R.layout.fragment_login), LoginContract.View {
     interface Callback {
         fun toRegister()
-        fun loginToMain()
+        fun loginToUnlock()
     }
 
     var callback: Callback? = null
@@ -19,9 +20,13 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (FirebaseAuth.getInstance().uid != null) {
+            callback?.loginToUnlock()
+            return
+        }
         btnLogin.setOnClickListener {
             showLoginProgress()
-            presenter.login(getEmailLogin(),getPasswordLogin())
+            presenter.login(getEmailLogin(), getPasswordLogin())
 
         }
         tvRegister.setOnClickListener {
@@ -35,12 +40,12 @@ class LoginFragment : Fragment(R.layout.fragment_login), LoginContract.View {
 
     override fun loginSuccess() {
         progressBar2.visibility = View.GONE
-        callback?.loginToMain()
+        callback?.loginToUnlock()
     }
 
-    override fun loginFail(message:String) {
+    override fun loginFail(message: String) {
         progressBar2.visibility = View.GONE
-        Toast.makeText(requireContext(),"$message",Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "$message", Toast.LENGTH_SHORT).show()
     }
 
     override fun getEmailLogin(): String {

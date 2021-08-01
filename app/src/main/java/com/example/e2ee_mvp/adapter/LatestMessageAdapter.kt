@@ -72,7 +72,11 @@ class LatestMessageAdapter(val onclick: (User) -> Unit) :
             this.user = latesMessage.user
             this.latesMessage = latesMessage
             userTextView.text = latesMessage.user?.username
-            messageTextView.text = latesMessage.text
+            if (latesMessage.image) {
+                messageTextView.text = "[image]"
+            } else {
+                messageTextView.text = if(latesMessage.text.length>17) latesMessage.text.substring(0,16)+"..." else latesMessage.text
+            }
             latestTime.text = convertLongToDate(latesMessage.timestamp * 1000)
             Picasso.get().load(latesMessage.user?.profileImage).into(imageView)
         }

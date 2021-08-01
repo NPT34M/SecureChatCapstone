@@ -3,11 +3,12 @@ package com.example.e2ee_mvp.model
 class ChatMessage(
     val id: String,
     val text: String,
+    val image: Boolean,
     val fromId: String,
     val toId: String,
     val timestamp: Long
 ) {
-    constructor() : this("", "", "", "", -1)
+    constructor() : this("", "", false, "", "", -1)
 
     override fun equals(other: Any?): Boolean {
         if (javaClass != other?.javaClass) {

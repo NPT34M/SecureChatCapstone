@@ -1,6 +1,7 @@
 package com.example.e2ee_mvp.home.latestChat
 
 import android.util.Log
+import com.example.e2ee_mvp.localDB.AppDatabase
 import com.example.e2ee_mvp.model.ChatMessage
 import com.example.e2ee_mvp.model.LatestMessageModel
 import com.example.e2ee_mvp.model.User
@@ -9,7 +10,6 @@ import com.google.firebase.database.*
 
 class LatestMessagePresenter(val view: LatestMessageContract.View) :
     LatestMessageContract.Presenter {
-
     init {
         view.presenter = this
     }
@@ -24,7 +24,8 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
     override fun listenForLatestMessage() {
 //        fetchCurrentUserLogin()
         val fromId = firebaseAuth?.uid
-        val ref = firebaseDatabase.getReference("/latest-messages/$fromId").orderByChild("timestamp")
+        val ref =
+            firebaseDatabase.getReference("/latest-messages/$fromId").orderByChild("timestamp")
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val latestMessageList = mutableListOf<ChatMessage>()
@@ -58,7 +59,8 @@ class LatestMessagePresenter(val view: LatestMessageContract.View) :
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val partnerUser = snapshot.getValue(User::class.java)
-                    val latestMess = LatestMessageModel(it.id, it.text, it.timestamp, partnerUser)
+                    val latestMess =
+                        LatestMessageModel(it.id, it.text, it.image, it.timestamp, partnerUser)
                     latestMessageList.add(latestMess)
                     view.showLatestMessage(latestMessageList)
                 }

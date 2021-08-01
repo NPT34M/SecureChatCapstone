@@ -3,6 +3,7 @@ plugins {
     id 'kotlin-android'
     id 'kotlin-android-extensions'
     id 'com.google.gms.google-services'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -56,4 +57,20 @@ dependencies {
     implementation 'com.google.dagger:dagger:2.28.3'
     implementation 'com.google.dagger:dagger-android-support:2.20'
     implementation 'com.squareup.picasso:picasso:2.71828'
+
+    implementation("androidx.security:security-crypto:1.0.0")
+
+    // For Identity Credential APIs
+    implementation("androidx.security:security-identity-credential:1.0.0-alpha02")
+
+    // For App Authentication APIs
+    implementation("androidx.security:security-app-authenticator:1.0.0-alpha02")
+
+    // For App Authentication API testing
+    androidTestImplementation("androidx.security:security-app-authenticator:1.0.0-alpha01")
+
+    //Database
+    implementation 'androidx.room:room-runtime:2.1.0'
+    kapt 'androidx.room:room-compiler:2.1.0'
+    testImplementation 'androidx.room:room-testing:2.1.0'
 }

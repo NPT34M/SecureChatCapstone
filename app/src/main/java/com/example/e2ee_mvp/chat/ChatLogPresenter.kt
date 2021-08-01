@@ -14,8 +14,7 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
     private val firebaseAuth = FirebaseAuth.getInstance()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
-    override fun performSendMessage(user: User?) {
-        val text = view.getTextMessage()
+    override fun performSendMessage(user: User?, text: String, isImage: Boolean) {
         val toId = user?.uid
         val fromId = firebaseAuth.uid
         if (fromId == null) return
@@ -23,7 +22,14 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
         val toRef = firebaseDatabase.getReference("/users-messages/$toId/$fromId").push()
 
         val chatMessage =
-            ChatMessage(fromRef.key!!, text, fromId, toId!!, System.currentTimeMillis() / 1000)
+            ChatMessage(
+                fromRef.key!!,
+                text,
+                isImage,
+                fromId,
+                toId!!,
+                System.currentTimeMillis() / 1000
+            )
 
         fromRef.setValue(chatMessage).addOnCompleteListener {
             Log.d("SendMess", "Save our chat message: ${fromRef.key}")
@@ -40,17 +46,17 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
         val toId = user?.uid
         val fromId = firebaseAuth.uid
         val ref = firebaseDatabase.getReference("/users-messages/$fromId/$toId")
-        ref.addValueEventListener(object :ValueEventListener{
+        ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val messageList = mutableListOf<ChatMessage>()
                 snapshot.children.forEach {
                     val chatMessage = it.getValue(ChatMessage::class.java)
-                    if(chatMessage!=null){
+                    if (chatMessage != null) {
                         messageList.add(chatMessage)
                     }
                 }
                 view.showMessageLog(messageList)
-                Log.d("BBBB","${view.hashCode()}")
+                Log.d("BBBB", "${view.hashCode()}")
             }
 
             override fun onCancelled(error: DatabaseError) {

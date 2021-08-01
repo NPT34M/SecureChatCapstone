@@ -1,5 +1,8 @@
 package com.example.e2ee_mvp.adapter
 
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
+import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -35,15 +38,32 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
         var chatMessage: ChatMessage? = null
         private val textView: TextView
         private val imageView: ImageView
+        private val imageViewSend: ImageView
 
         init {
             textView = view.findViewById(R.id.tvFromRow)
             imageView = view.findViewById(R.id.imgFromRow)
+            imageViewSend = view.findViewById(R.id.imgSendFromUser)
         }
 
         fun bindData(chatMessage: ChatMessage) {
             this.chatMessage = chatMessage
-            textView.text = chatMessage.text
+            if (chatMessage.image) {
+                textView.visibility = View.GONE
+                imageViewSend.visibility = View.VISIBLE
+                val re = chatMessage.text.replace("\n", "")
+                decodeImage(re, imageViewSend)
+            } else {
+                imageViewSend.visibility = View.GONE
+                textView.visibility = View.VISIBLE
+                textView.text = chatMessage.text
+            }
+        }
+
+        fun decodeImage(text: String, img: ImageView) {
+            val imageBytes = Base64.decode(text, Base64.DEFAULT)
+            val bitmap: Bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            img.setImageBitmap(bitmap)
         }
     }
 
@@ -51,16 +71,33 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
         var chatMessage: ChatMessage? = null
         private val textView: TextView
         private val imageView: ImageView
+        private val imageViewSend: ImageView
 
         init {
             textView = view.findViewById(R.id.tvToRow)
             imageView = view.findViewById(R.id.imgToRow)
+            imageViewSend = view.findViewById(R.id.imgSendToUser)
         }
 
         fun bindData(chatMessage: ChatMessage, user: User) {
             this.chatMessage = chatMessage
-            textView.text = chatMessage.text
+            if (chatMessage.image) {
+                textView.visibility = View.GONE
+                imageViewSend.visibility = View.VISIBLE
+                val re = chatMessage.text.replace("\n", "")
+                decodeImage(re, imageViewSend)
+            } else {
+                textView.visibility = View.VISIBLE
+                imageViewSend.visibility = View.GONE
+                textView.text = chatMessage.text
+            }
             Picasso.get().load(user.profileImage).into(imageView)
+        }
+
+        fun decodeImage(text: String, img: ImageView) {
+            val imageBytes = Base64.decode(text, Base64.DEFAULT)
+            val bitmap: Bitmap = BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+            img.setImageBitmap(bitmap)
         }
     }
 
@@ -93,5 +130,4 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
             anotherUser?.let { holder.bindData(item, it) }
         }
     }
-
 }

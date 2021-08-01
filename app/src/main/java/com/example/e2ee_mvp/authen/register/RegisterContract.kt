@@ -8,7 +8,7 @@ interface RegisterContract {
     interface View : BaseView<Presenter> {
         fun showRegisterProgress()
         fun registerSuccess()
-        fun registerFail(message:String)
+        fun registerFail(message: String)
         fun getUsername(): String
         fun getEmail(): String
         fun getPassword(): String

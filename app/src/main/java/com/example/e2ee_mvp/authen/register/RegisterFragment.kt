@@ -15,7 +15,6 @@ import kotlinx.android.synthetic.main.fragment_register.*
 class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.View {
     interface Callback {
         fun toLogin()
-        fun fromRegisterToMain()
     }
 
     var callback: Callback? = null
@@ -70,7 +69,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
     override fun registerSuccess() {
         progressBar.visibility = View.GONE
         Toast.makeText(requireContext(), "Register Successful!", Toast.LENGTH_SHORT).show()
-        callback?.fromRegisterToMain()
+        callback?.toLogin()
     }
 
     override fun registerFail(message: String) {

@@ -10,11 +10,11 @@ import com.example.e2ee_mvp.R
 import com.example.e2ee_mvp.model.User
 import com.squareup.picasso.Picasso
 
-class UserAdapter(val onClick: (User) -> Unit) :
+class UserAdapter(val onClick: (User) -> Unit, val onImageClick:(User)->Unit) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private var data: List<User> = mutableListOf()
 
-    class UserViewHolder(view: View, onClick: (User) -> Unit) : RecyclerView.ViewHolder(view) {
+    class UserViewHolder(view: View, onClick: (User) -> Unit, onImageClick:(User)->Unit) : RecyclerView.ViewHolder(view) {
         private var user: User? = null
         private val textView: TextView
         private val imageView: ImageView
@@ -22,9 +22,9 @@ class UserAdapter(val onClick: (User) -> Unit) :
         init {
             textView = view.findViewById(R.id.tvSearchUsername)
             imageView = view.findViewById(R.id.imgSearchUser)
-//            imageView.setOnClickListener {
-//                user?.let { onClick.invoke(it) }
-//            }
+            imageView.setOnClickListener {
+                user?.let { onImageClick.invoke(it) }
+            }
             view.setOnClickListener {
                 user?.let { onClick.invoke(it) }
             }
@@ -45,7 +45,7 @@ class UserAdapter(val onClick: (User) -> Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.contact_user_row, parent, false)
-        return UserViewHolder(view, onClick)
+        return UserViewHolder(view, onClick, onImageClick)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {

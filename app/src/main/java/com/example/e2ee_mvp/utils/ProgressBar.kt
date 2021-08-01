@@ -1,4 +1,4 @@
-package com.example.e2ee_mvp.uiSupport
+package com.example.e2ee_mvp.utils
 
 import android.app.Activity
 import android.app.AlertDialog
