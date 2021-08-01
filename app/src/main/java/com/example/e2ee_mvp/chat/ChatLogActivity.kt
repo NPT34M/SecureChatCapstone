@@ -32,27 +32,5 @@ class ChatLogActivity : AppCompatActivity() {
             supportFragmentManager.beginTransaction()
                 .replace(R.id.frame_layout_chat_log, it).commit()
         }
-
-//        FirebaseDatabase.getInstance().getReference("/users/${FirebaseAuth.getInstance().uid}")
-//            .addValueEventListener(object : ValueEventListener {
-//                override fun onDataChange(snapshot: DataSnapshot) {
-//                    currentUser = snapshot.getValue(User::class.java)
-//                    toUser = intent.getParcelableExtra(AppActivity.USER_KEY)
-//                    supportActionBar?.title = toUser?.username
-//                    currentUser?.let {
-//                        ChatLogFragment(it, toUser).also {
-//                            ChatLogPresenter(it)
-//                        }.let {
-//                            Log.d("AAA", "chatlogg")
-//                            supportFragmentManager.beginTransaction()
-//                                .add(R.id.frame_layout_chat_log, it).commit()
-//                        }
-//                    }
-//                }
-//
-//                override fun onCancelled(error: DatabaseError) {
-//                }
-//
-//            })
     }
 }

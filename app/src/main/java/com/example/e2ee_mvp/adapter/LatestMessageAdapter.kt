@@ -13,6 +13,8 @@ import com.example.e2ee_mvp.R
 import com.example.e2ee_mvp.model.LatestMessageModel
 import com.example.e2ee_mvp.model.User
 import com.squareup.picasso.Picasso
+import java.text.SimpleDateFormat
+import java.util.*
 
 class LatestMessageAdapter(val onclick: (User) -> Unit) :
     ListAdapter<LatestMessageModel, LatestMessageAdapter.LatestMessageViewHolder>(object :
@@ -48,14 +50,22 @@ class LatestMessageAdapter(val onclick: (User) -> Unit) :
         private val userTextView: TextView
         private val messageTextView: TextView
         private val imageView: ImageView
+        private val latestTime: TextView
 
         init {
             userTextView = view.findViewById(R.id.tvUsernameLatestMessage)
             messageTextView = view.findViewById(R.id.tvLatestMessage)
             imageView = view.findViewById(R.id.imgLatestMessage)
+            latestTime = view.findViewById(R.id.tvLatestDateTime)
             view.setOnClickListener {
                 user?.let { onclick.invoke(it) }
             }
+        }
+
+        fun convertLongToDate(time: Long): String {
+            val date = Date(time)
+            val format = SimpleDateFormat("yyyy/MM/dd HH:mm")
+            return format.format(date)
         }
 
         fun bindData(latesMessage: LatestMessageModel) {
@@ -63,11 +73,13 @@ class LatestMessageAdapter(val onclick: (User) -> Unit) :
             this.latesMessage = latesMessage
             userTextView.text = latesMessage.user?.username
             messageTextView.text = latesMessage.text
+            latestTime.text = convertLongToDate(latesMessage.timestamp * 1000)
             Picasso.get().load(latesMessage.user?.profileImage).into(imageView)
         }
 
         fun bindMessageData(latesMessage: LatestMessageModel) {
             messageTextView.text = latesMessage.text
+            latestTime.text = convertLongToDate(latesMessage.timestamp)
         }
     }
 

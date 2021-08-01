@@ -4,13 +4,10 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
-import androidx.navigation.ui.setupWithNavController
+import android.view.Menu
+import android.view.MenuItem
 import com.example.e2ee_mvp.authen.MainActivity
 import com.example.e2ee_mvp.R
-import com.example.e2ee_mvp.adapter.ViewPageAdapter
 import com.example.e2ee_mvp.chat.ChatLogActivity
 import com.example.e2ee_mvp.home.contact.ContactFragment
 import com.example.e2ee_mvp.home.contact.ContactPresenter
@@ -19,12 +16,13 @@ import com.example.e2ee_mvp.home.latestChat.LatestMessageFragment
 import com.example.e2ee_mvp.model.User
 import com.example.e2ee_mvp.home.my.MyProfileFragment
 import com.example.e2ee_mvp.home.my.MyProfilePresenter
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import com.google.android.material.tabs.TabLayoutMediator
+import com.example.e2ee_mvp.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_app.*
 
 class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFragment.CallBack,
     LatestMessageFragment.CallBack {
+//    private lateinit var toolbar:androidx.appcompat.widget.Toolbar
+
     companion object {
         const val USER_KEY = "USER_KEY"
     }
@@ -51,7 +49,7 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
 //        TabLayoutMediator(tabLayoutApp, viewPagerApp) { tab, position ->
 //            tab.text = viewPageAdapter.getTitle(position)
 //        }.attach()
-setSupportActionBar(myToolbar)
+        setSupportActionBar(myToolbar)
         makeCurrentFragment(latestMessageFragment)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
@@ -79,6 +77,21 @@ setSupportActionBar(myToolbar)
         supportActionBar?.setTitle("Messengers")
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.nav_menu_search, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.nav_search -> {
+                val intent = Intent(this, SearchActivity::class.java)
+                startActivity(intent)
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun backToLogin() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
@@ -91,7 +104,7 @@ setSupportActionBar(myToolbar)
         startActivity(intent)
     }
 
-    override fun signoutFromLatest() {
+    override fun signOutFromLatest() {
         val intent = Intent(this, MainActivity::class.java)
         intent.flags = Intent.FLAG_ACTIVITY_CLEAR_TASK.or(Intent.FLAG_ACTIVITY_NEW_TASK)
         startActivity(intent)

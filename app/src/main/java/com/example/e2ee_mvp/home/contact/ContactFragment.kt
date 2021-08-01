@@ -32,7 +32,7 @@ class ContactFragment() : Fragment(R.layout.fragment_contact), ContactContract.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.getUserFromDB()
+        presenter.getUserFriends()
         rcvFragmentContact.adapter = adapter
         if (presenter.verifyUserLoggedIn() == "null") {
             callback?.backToLogin()

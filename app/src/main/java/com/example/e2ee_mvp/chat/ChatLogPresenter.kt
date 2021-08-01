@@ -12,7 +12,7 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
     }
 
     private val firebaseAuth = FirebaseAuth.getInstance()
-    private val firebaseDB = FirebaseDatabase.getInstance()
+    private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun performSendMessage(user: User?) {
         val text = view.getTextMessage()
@@ -22,8 +22,8 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
         val toId = user?.uid
         val fromId = firebaseAuth.uid
         if (fromId == null) return
-        val fromRef = firebaseDB.getReference("/users-messages/$fromId/$toId").push()
-        val toRef = firebaseDB.getReference("/users-messages/$toId/$fromId").push()
+        val fromRef = firebaseDatabase.getReference("/users-messages/$fromId/$toId").push()
+        val toRef = firebaseDatabase.getReference("/users-messages/$toId/$fromId").push()
 
         val chatMessage =
             ChatMessage(fromRef.key!!, text, fromId, toId!!, System.currentTimeMillis() / 1000)
@@ -33,16 +33,16 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
         }
         toRef.setValue(chatMessage)
 
-        val latestMessFromRef = firebaseDB.getReference("/latest-messages/$fromId/$toId")
+        val latestMessFromRef = firebaseDatabase.getReference("/latest-messages/$fromId/$toId")
         latestMessFromRef.setValue(chatMessage)
-        val latestMessToRef = firebaseDB.getReference("/latest-messages/$toId/$fromId")
+        val latestMessToRef = firebaseDatabase.getReference("/latest-messages/$toId/$fromId")
         latestMessToRef.setValue(chatMessage)
     }
 
     override fun listenForMessage(user: User?) {
         val toId = user?.uid
         val fromId = firebaseAuth.uid
-        val ref = firebaseDB.getReference("/users-messages/$fromId/$toId")
+        val ref = firebaseDatabase.getReference("/users-messages/$fromId/$toId")
         ref.addValueEventListener(object :ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 val messageList = mutableListOf<ChatMessage>()

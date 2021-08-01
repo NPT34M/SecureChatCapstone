@@ -14,12 +14,12 @@ class MyProfilePresenter(val view: MyProfileContract.View) : MyProfileContract.P
     }
 
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
-    private val firebaseDB: FirebaseDatabase = FirebaseDatabase.getInstance()
+    private val firebaseDatabase: FirebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun getUserInfo() {
         val currentUserId = firebaseAuth.uid
         var user: User? = null
-        firebaseDB.getReference("/users/$currentUserId")
+        firebaseDatabase.getReference("/users/$currentUserId")
             .addListenerForSingleValueEvent(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     user = snapshot.getValue(User::class.java)

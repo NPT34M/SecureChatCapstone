@@ -1,9 +1,8 @@
 package com.example.e2ee_mvp.home.contact
 
-import android.content.Intent
 import android.util.Log
-import com.example.e2ee_mvp.chat.ChatLogActivity
 import com.example.e2ee_mvp.model.User
+import com.example.e2ee_mvp.model.UserFriend
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -22,7 +21,24 @@ class ContactPresenter(val view: ContactContract.View) : ContactContract.Present
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
-    override fun getUserFromDB() {
+    override fun getUserFriends() {
+        val uid = firebaseAuth?.uid
+        val friends = HashMap<String, UserFriend?>()
+        val ref = firebaseDatabase.getReference("/users/$uid/friends")
+        ref.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    friends.put(it.key!!, it.getValue(UserFriend::class.java))
+                }
+                getUserFromDB(friends)
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
+    override fun getUserFromDB(friend: HashMap<String, UserFriend?>) {
         fetchCurrentUserLogin()
         val users = mutableListOf<User>()
         val ref = firebaseDatabase.getReference("/users")
@@ -30,7 +46,7 @@ class ContactPresenter(val view: ContactContract.View) : ContactContract.Present
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     val user = it.getValue(User::class.java)
-                    if (user?.uid != currentLoginUser?.uid && user != null) {
+                    if (user?.uid != currentLoginUser?.uid && user != null && user?.uid in friend.keys) {
                         users.add(user)
                     }
                 }

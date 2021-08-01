@@ -7,7 +7,10 @@ import com.example.e2ee_mvp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
+import java.math.BigInteger
 import java.util.*
+import java.util.concurrent.ThreadLocalRandom
+import kotlin.collections.HashMap
 
 class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Presenter {
     init {
@@ -30,11 +33,22 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
         firebaseAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
+//                    var privateNum = generatePrivateNum()
                     uploadPhotoToFirebaseStorage(view.getPhotoSelectURI())
                 } else {
                     view.registerFail(it.exception?.message.toString())
                 }
             }
+    }
+
+    fun generatePrivateNum():BigInteger{
+        val max = BigInteger.ONE.shiftLeft(128)
+        var key:BigInteger
+        do {
+            val integer:BigInteger = BigInteger(128,ThreadLocalRandom.current())
+            key = integer.nextProbablePrime()
+        }while (key.compareTo(max)>0)
+        return key
     }
 
     fun uploadPhotoToFirebaseStorage(uri: Uri?) {
@@ -51,7 +65,8 @@ class RegisterPresenter(val view: RegisterContract.View) : RegisterContract.Pres
 
                 ref.downloadUrl.addOnSuccessListener {
                     Log.d("DownloadURL", "File location: ${it}")
-                    val user = User(uid, view.getUsername(), it.toString())
+//                    val user = User(uid, view.getUsername(), it.toString(), num)
+                    val user = User(uid, view.getUsername(), it.toString(), HashMap(),false)
                     saveUserToFirebaseRealTimeDB(user)
                 }
             }
