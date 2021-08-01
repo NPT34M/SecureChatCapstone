@@ -37,12 +37,10 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
     class ChatFromViewHolder(view: View) : ChatViewHolder(view) {
         var chatMessage: ChatMessage? = null
         private val textView: TextView
-        private val imageView: ImageView
         private val imageViewSend: ImageView
 
         init {
             textView = view.findViewById(R.id.tvFromRow)
-            imageView = view.findViewById(R.id.imgFromRow)
             imageViewSend = view.findViewById(R.id.imgSendFromUser)
         }
 

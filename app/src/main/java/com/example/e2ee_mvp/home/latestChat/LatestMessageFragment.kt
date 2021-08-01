@@ -13,8 +13,6 @@ import javax.inject.Inject
 
 class LatestMessageFragment : Fragment(R.layout.fragment_latest_message),
     LatestMessageContract.View {
-
-    @Inject
     override lateinit var presenter: LatestMessageContract.Presenter
 
     interface CallBack {

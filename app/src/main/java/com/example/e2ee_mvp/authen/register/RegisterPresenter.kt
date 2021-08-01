@@ -2,14 +2,10 @@ package com.example.e2ee_mvp.authen.register
 
 import android.net.Uri
 import android.util.Log
-import com.example.e2ee_mvp.App
-import com.example.e2ee_mvp.localDB.AppDatabase
-import com.example.e2ee_mvp.localDB.user.UserInfoLocal
 import com.example.e2ee_mvp.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
-import java.math.BigInteger
 import java.util.*
 import kotlin.collections.HashMap
 

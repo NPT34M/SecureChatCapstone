@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/my_nav"
+    app:startDestination="@id/latestMessageFragment">
+
+    <fragment
+        android:id="@+id/latestMessageFragment"
+        android:name="com.example.e2ee_mvp.home.latestChat.LatestMessageFragment"
+        android:label="Messages"
+        tools:layout="@layout/fragment_latest_message" >
+        <action
+            android:id="@+id/action_latestMessageFragment_to_contactFragment"
+            app:destination="@id/contactFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/contactFragment"
+        android:name="com.example.e2ee_mvp.home.contact.ContactFragment"
+        android:label="Contact"
+        tools:layout="@layout/fragment_contact" >
+        <action
+            android:id="@+id/action_contactFragment_to_myProfileFragment"
+            app:destination="@id/myProfileFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/myProfileFragment"
+        android:name="com.example.e2ee_mvp.home.my.MyProfileFragment"
+        android:label="My Profile"
+        tools:layout="@layout/fragment_my_profile" />
+</navigation>
