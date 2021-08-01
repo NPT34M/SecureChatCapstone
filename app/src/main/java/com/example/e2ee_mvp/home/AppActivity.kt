@@ -20,6 +20,7 @@ import com.example.e2ee_mvp.home.my.MyProfilePresenter
 import com.example.e2ee_mvp.localDB.LocalDataSource
 import com.example.e2ee_mvp.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_app.*
+import kotlinx.android.synthetic.main.appbar.*
 
 class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFragment.CallBack,
     LatestMessageFragment.CallBack {
@@ -51,7 +52,6 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
 //        TabLayoutMediator(tabLayoutApp, viewPagerApp) { tab, position ->
 //            tab.text = viewPageAdapter.getTitle(position)
 //        }.attach()
-        setSupportActionBar(myToolbar)
         makeCurrentFragment(latestMessageFragment)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {

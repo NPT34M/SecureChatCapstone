@@ -15,8 +15,7 @@ class ChatLogPresenter(val view: ChatLogContract.View) : ChatLogContract.Present
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
     override fun performSendMessage(user: User?, text: String, isImage: Boolean) {
-        val text = view.getTextMessage()
-        if(text.isEmpty()){
+        if (text.isEmpty() && isImage == false) {
             return
         }
         val toId = user?.uid

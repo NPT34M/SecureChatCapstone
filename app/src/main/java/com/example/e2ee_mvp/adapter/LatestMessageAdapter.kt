@@ -82,7 +82,12 @@ class LatestMessageAdapter(val onclick: (User) -> Unit) :
         }
 
         fun bindMessageData(latesMessage: LatestMessageModel) {
-            messageTextView.text = latesMessage.text
+            if (latesMessage.image) {
+                messageTextView.text = "[image]"
+            } else {
+                messageTextView.text = if(latesMessage.text.length>17) latesMessage.text.substring(0,16)+"..." else latesMessage.text
+            }
+//            messageTextView.text = latesMessage.text
             latestTime.text = convertLongToDate(latesMessage.timestamp)
         }
     }
