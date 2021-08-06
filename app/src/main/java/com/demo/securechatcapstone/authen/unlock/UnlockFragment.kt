@@ -41,7 +41,6 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
             btnUnlockSubmit.setOnClickListener {
                 if (presenter.checkUnlockPassword(getPassword())) {
                     unlockSuccess()
-                    callback?.toMain()
                 } else {
                     unlockFail()
                 }
@@ -70,6 +69,7 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
 
     override fun unlockSuccess() {
         Toast.makeText(requireContext(), "Unlock Sucessfull!!", Toast.LENGTH_SHORT).show()
+        callback?.toMain()
     }
 
     override fun unlockFail() {

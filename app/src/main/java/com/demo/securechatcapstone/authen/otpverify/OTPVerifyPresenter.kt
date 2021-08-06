@@ -16,8 +16,17 @@ class OTPVerifyPresenter(val view: OTPVerifyContract.View) : OTPVerifyContract.P
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
             view.showProgress(false)
             if (it.isSuccessful) {
-                savePhoneNumberToDatabase(it.result?.user?.uid, phone)
-                view.verifySuccess(phone)
+                val uid = it.result?.user?.uid
+                firebaseDatabase.getReference("/users/${it.result?.user?.uid}").child("username")
+                    .get().addOnCompleteListener {
+                        val displayName = it.result?.value.toString()
+                        if (displayName.isNullOrEmpty()) {
+                            savePhoneNumberToDatabase(uid, phone)
+                            view.verifySuccess(phone)
+                        }else{
+                            view.verifySuccess()
+                        }
+                    }
             }
         }
     }

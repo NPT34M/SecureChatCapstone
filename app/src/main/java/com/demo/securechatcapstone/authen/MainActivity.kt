@@ -130,4 +130,19 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
                 .addToBackStack(null).commit()
         }
     }
+
+    override fun OTPToUnlock() {
+        UnlockFragment().also {
+            UnlockPresenter(
+                it,
+                LocalDataSource.getAppDatabase(
+                    applicationContext,
+                    firebaseAuth.uid!!
+                )
+            )
+        }.let {
+            supportFragmentManager.beginTransaction().replace(R.id.frame_layout, it)
+                .addToBackStack(null).commit()
+        }
+    }
 }

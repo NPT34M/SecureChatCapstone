@@ -29,6 +29,7 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
 
     interface Callback {
         fun toRegister(number: String)
+        fun OTPToUnlock()
     }
 
     var callback: Callback? = null
@@ -110,6 +111,10 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
 
     override fun verifySuccess(phone: String) {
         callback?.toRegister(phone)
+    }
+
+    override fun verifySuccess() {
+        callback?.OTPToUnlock()
     }
 
     override fun onDetach() {
