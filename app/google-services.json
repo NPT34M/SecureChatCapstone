@@ -8,6 +8,43 @@
   "client": [
     {
       "client_info": {
+        "mobilesdk_app_id": "1:190722569511:android:73a7400cf018da2a412502",
+        "android_client_info": {
+          "package_name": "com.demo.securechatcapstone"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "190722569511-3o59874nsmfefuoie2rhcu2nmi5e5us9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.demo.securechatcapstone",
+            "certificate_hash": "c452b89528ff7c9c2c4f68096959df0d546f26e7"
+          }
+        },
+        {
+          "client_id": "190722569511-dge6pql617h6u236qn5jjkv01qeu01ls.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhmhm_2T-6TzWviPQqb4fE0iEad13m1Bs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "190722569511-dge6pql617h6u236qn5jjkv01qeu01ls.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
         "mobilesdk_app_id": "1:190722569511:android:d236b950b68c8cf1412502",
         "android_client_info": {
           "package_name": "com.example.e2ee_mvp"
