@@ -1,34 +1,42 @@
 {
   "project_info": {
-    "project_number": "1037048607639",
-    "firebase_url": "https://chat-752f0-default-rtdb.firebaseio.com",
-    "project_id": "chat-752f0",
-    "storage_bucket": "chat-752f0.appspot.com"
+    "project_number": "190722569511",
+    "firebase_url": "https://e2ee-mvp-try-default-rtdb.firebaseio.com",
+    "project_id": "e2ee-mvp-try",
+    "storage_bucket": "e2ee-mvp-try.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1037048607639:android:20f44f8ca2a37bfbfb8ad2",
+        "mobilesdk_app_id": "1:190722569511:android:d236b950b68c8cf1412502",
         "android_client_info": {
           "package_name": "com.example.e2ee_mvp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1037048607639-nohohm6fk6eu0guhp5oj3g6217nd4shg.apps.googleusercontent.com",
+          "client_id": "190722569511-le0451v0jg24v1phm96am9a3tutg9qf4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.e2ee_mvp",
+            "certificate_hash": "c452b89528ff7c9c2c4f68096959df0d546f26e7"
+          }
+        },
+        {
+          "client_id": "190722569511-dge6pql617h6u236qn5jjkv01qeu01ls.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyB-lTzwCJ27Q812oYTu3wlzsoWkH_FY-5E"
+          "current_key": "AIzaSyAhmhm_2T-6TzWviPQqb4fE0iEad13m1Bs"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1037048607639-nohohm6fk6eu0guhp5oj3g6217nd4shg.apps.googleusercontent.com",
+              "client_id": "190722569511-dge6pql617h6u236qn5jjkv01qeu01ls.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

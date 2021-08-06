@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.e2ee_mvp">
+    package="com.demo.securechatcapstone">
 
     <application
-        android:name=".App"
+        android:name="com.demo.securechatcapstone.App"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.E2EE_MVP">
-        <activity android:name=".search.SearchActivity">
+        <activity android:name="com.demo.securechatcapstone.search.SearchActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".home.AppActivity" />
+                android:value="com.demo.securechatcapstone.home.AppActivity" />
         </activity>
         <!--        <activity android:name=".SplashScreenActivity">-->
         <!--            <intent-filter>-->
@@ -22,25 +22,20 @@
         <!--                <category android:name="android.intent.category.LAUNCHER" />-->
         <!--            </intent-filter>-->
         <!--        </activity>-->
-        <activity android:name=".FriendProfileActivity">
+        <activity android:name="com.demo.securechatcapstone.FriendProfileActivity">
 
             <!-- <meta-data -->
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
             <!-- android:value=".AppActivity" /> -->
         </activity>
-        <activity android:name=".chat.ChatLogActivity">
+        <activity android:name="com.demo.securechatcapstone.chat.ChatLogActivity">
             <!--            <meta-data-->
             <!--                android:name="android.support.PARENT_ACTIVITY"-->
             <!--                android:value=".home.AppActivity" />-->
         </activity>
-        <activity android:name=".home.AppActivity">
-            <!--            <intent-filter>-->
-            <!--                <action android:name="android.intent.action.MAIN" />-->
-
-            <!--                <category android:name="android.intent.category.LAUNCHER" />-->
-            <!--            </intent-filter>-->
+        <activity android:name="com.demo.securechatcapstone.home.AppActivity">
         </activity>
-        <activity android:name=".authen.MainActivity">
+        <activity android:name="com.demo.securechatcapstone.authen.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/latestMessageFragment"
-        android:name="com.example.e2ee_mvp.home.latestChat.LatestMessageFragment"
+        android:name="com.demo.securechatcapstone.home.latestChat.LatestMessageFragment"
         android:label="Messages"
         tools:layout="@layout/fragment_latest_message" >
         <action
@@ -16,7 +16,7 @@
     </fragment>
     <fragment
         android:id="@+id/contactFragment"
-        android:name="com.example.e2ee_mvp.home.contact.ContactFragment"
+        android:name="com.demo.securechatcapstone.home.contact.ContactFragment"
         android:label="Contact"
         tools:layout="@layout/fragment_contact" >
         <action
@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/myProfileFragment"
-        android:name="com.example.e2ee_mvp.home.my.MyProfileFragment"
+        android:name="com.demo.securechatcapstone.home.my.MyProfileFragment"
         android:label="My Profile"
         tools:layout="@layout/fragment_my_profile" />
 </navigation>
