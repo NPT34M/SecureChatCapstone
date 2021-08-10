@@ -52,10 +52,22 @@
         android:id="@+id/frame_layout_chat_log"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbarChatLog">
 
     </FrameLayout>
+
+    <ImageView
+        android:id="@+id/icon_infor"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/toolbarChatLog"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_infor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

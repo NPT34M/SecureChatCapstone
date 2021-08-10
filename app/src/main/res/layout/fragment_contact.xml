@@ -8,10 +8,16 @@
 
     <EditText
         android:id="@+id/edtSearchContact"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:drawableStart="@drawable/icon_search"
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
+        android:layout_height="50dp"
+        android:paddingLeft="10dp"
         android:ems="10"
         android:hint="Search..."
+        android:background="@drawable/radius_fill"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
