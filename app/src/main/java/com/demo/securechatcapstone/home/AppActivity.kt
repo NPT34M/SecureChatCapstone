@@ -17,13 +17,11 @@ import com.demo.securechatcapstone.home.latestChat.LatestMessageFragment
 import com.demo.securechatcapstone.model.User
 import com.demo.securechatcapstone.home.my.MyProfileFragment
 import com.demo.securechatcapstone.home.my.MyProfilePresenter
-import com.demo.securechatcapstone.search.SearchActivity
 import kotlinx.android.synthetic.main.activity_app.*
 import kotlinx.android.synthetic.main.appbar.*
 
 class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFragment.CallBack,
     LatestMessageFragment.CallBack {
-//    private lateinit var toolbar:androidx.appcompat.widget.Toolbar
 
     companion object {
         const val USER_KEY = "USER_KEY"
@@ -32,7 +30,6 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_app)
-
         setSupportActionBar(myToolbar)
         val latestMessageFragment = LatestMessageFragment().also {
             LatestMessagePresenter(it)
@@ -43,28 +40,17 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
         val my = MyProfileFragment().also {
             MyProfilePresenter(it)
         }
-//        val viewPageAdapter = ViewPageAdapter(this)
-//        viewPageAdapter.addFragment(latestMessageFragment, "Latest Message")
-//        viewPageAdapter.addFragment(contactFragment, "Contact")
-//        viewPageAdapter.addFragment(my, "Profile")
-//        viewPagerApp.adapter = viewPageAdapter
-//        TabLayoutMediator(tabLayoutApp, viewPagerApp) { tab, position ->
-//            tab.text = viewPageAdapter.getTitle(position)
-//        }.attach()
-        makeCurrentFragment(latestMessageFragment)
+        makeCurrentFragment(latestMessageFragment, "Messenger")
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
                 R.id.latestMessageFragment -> {
-                    makeCurrentFragment(latestMessageFragment)
-                    supportActionBar?.setTitle("Messengers")
+                    makeCurrentFragment(latestMessageFragment, "Messenger")
                 }
                 R.id.contactFragment -> {
-                    makeCurrentFragment(contactFragment)
-                    supportActionBar?.setTitle("Contacts")
+                    makeCurrentFragment(contactFragment, "Contacts")
                 }
                 R.id.myProfileFragment -> {
-                    makeCurrentFragment(my)
-                    supportActionBar?.setTitle("My Profile")
+                    makeCurrentFragment(my, "My Profile")
                 }
             }
             true
@@ -73,24 +59,9 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
     }
 
 
-    private fun makeCurrentFragment(fragment: Fragment) {
+    private fun makeCurrentFragment(fragment: Fragment, title: String) {
         supportFragmentManager.beginTransaction().replace(R.id.frameHome, fragment).commit()
-        supportActionBar?.setTitle("Messengers")
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.nav_menu_search, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId) {
-            R.id.nav_search -> {
-                val intent = Intent(this, SearchActivity::class.java)
-                startActivity(intent)
-            }
-        }
-        return super.onOptionsItemSelected(item)
+        tvTitleHome.text = title
     }
 
     override fun backToLogin() {

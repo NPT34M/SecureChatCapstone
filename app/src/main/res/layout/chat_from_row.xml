@@ -19,6 +19,7 @@
         android:paddingEnd="16dp"
         android:paddingBottom="5dp"
         android:text="This is my message"
+        android:textSize="20sp"
         android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

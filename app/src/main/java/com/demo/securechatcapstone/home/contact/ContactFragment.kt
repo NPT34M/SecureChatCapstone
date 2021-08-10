@@ -2,6 +2,8 @@ package com.demo.securechatcapstone.home.contact
 
 import android.content.Context
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import androidx.fragment.app.Fragment
 import android.view.View
 import com.demo.securechatcapstone.R
@@ -35,11 +37,28 @@ class ContactFragment() : Fragment(R.layout.fragment_contact), ContactContract.V
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        presenter.getUserFriends()
-        rcvFragmentContact.adapter = adapter
-        if (presenter.verifyUserLoggedIn() == "null") {
+        if (presenter.verifyUserLoggedIn()) {
             callback?.backToLogin()
         }
+        presenter.getLimitUser()
+        edtSearchContact.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                presenter.getLimitUser()
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                presenter.getUserWithText(getSearchText())
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                presenter.getLimitUser()
+            }
+        })
+        rcvFragmentContact.adapter = adapter
+    }
+
+    override fun getSearchText(): String {
+        return edtSearchContact?.text.toString()
     }
 
     override fun onDetach() {

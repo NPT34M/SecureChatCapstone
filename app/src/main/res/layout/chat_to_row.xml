@@ -8,8 +8,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/imgToRow"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         android:layout_marginTop="8dp"
         android:layout_marginLeft="16dp"
         android:background="@drawable/radius_avt"
@@ -30,7 +30,7 @@
         android:paddingBottom="5dp"
         android:text="This is my message"
         android:textColor="@color/white"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintBottom_toBottomOf="@+id/imgToRow"
         app:layout_constraintStart_toEndOf="@+id/imgToRow"
         app:layout_constraintTop_toTopOf="@+id/imgToRow" />

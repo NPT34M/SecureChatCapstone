@@ -8,11 +8,12 @@ import com.demo.securechatcapstone.model.UserFriend
 interface ContactContract {
     interface View : BaseView<Presenter>{
         fun showListContact(users:List<User>)
+        fun getSearchText():String
     }
     interface Presenter : BasePresenter{
-        fun getUserFriends()
-        fun getUserFromDB(friend:HashMap<String,UserFriend?>)
+        fun getLimitUser()
+        fun getUserWithText(text:String)
         fun fetchCurrentUserLogin()
-        fun verifyUserLoggedIn():String
+        fun verifyUserLoggedIn():Boolean
     }
 }

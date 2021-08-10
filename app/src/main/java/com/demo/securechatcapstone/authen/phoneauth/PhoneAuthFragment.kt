@@ -2,6 +2,7 @@ package com.demo.securechatcapstone.authen.phoneauth
 
 import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
@@ -45,13 +46,15 @@ class PhoneAuthFragment : Fragment(R.layout.fragment_phone_auth), PhoneAuthContr
         }
         phoneAuthCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-                showProgress(false)
-                btnSubmitPhoneAuth.visibility = View.VISIBLE
+//                showProgress(false)
+//                btnSubmitPhoneAuth.visibility = View.VISIBLE
             }
 
             override fun onVerificationFailed(p0: FirebaseException) {
                 showProgress(false)
                 Toast.makeText(requireContext(), "$p0", Toast.LENGTH_SHORT).show()
+                Log.e("AAA","${p0}")
+                btnSubmitPhoneAuth.visibility = View.VISIBLE
             }
 
             override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {

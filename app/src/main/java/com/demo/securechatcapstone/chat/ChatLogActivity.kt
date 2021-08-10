@@ -6,6 +6,8 @@ import android.util.Log
 import com.demo.securechatcapstone.home.AppActivity
 import com.demo.securechatcapstone.R
 import com.demo.securechatcapstone.model.User
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_chat_log.*
 
 class ChatLogActivity : AppCompatActivity() {
 
@@ -19,7 +21,9 @@ class ChatLogActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat_log)
         toUser = intent.getParcelableExtra(AppActivity.USER_KEY)
-        supportActionBar?.title = toUser?.username
+        setSupportActionBar(toolbarChatLog)
+        Picasso.get().load(toUser?.profileImage).into(imgChatLog)
+        tvNameChatLog.text = toUser?.username
         ChatLogFragment(toUser).also {
             ChatLogPresenter(it)
         }.let {

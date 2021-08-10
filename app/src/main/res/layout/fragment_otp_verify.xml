@@ -53,6 +53,8 @@
         app:itemHeight="50dp"
         app:lineColor="#232323"
         android:textSize="18sp"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
         app:layout_constraintBottom_toTopOf="@+id/btnOTPVerify"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +80,6 @@
         android:accessibilityTraversalAfter="@id/tvOTP"
         android:text="Didn't get the code?"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.354"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOTPVerify" />
 
@@ -86,11 +87,10 @@
         android:id="@+id/tvResendOTP"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="40dp"
         android:text="Resend"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.633"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnOTPVerify" />
 

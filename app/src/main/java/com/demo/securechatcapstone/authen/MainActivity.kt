@@ -30,7 +30,7 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        if (firebaseAuth.currentUser == null) {
+        if (firebaseAuth.currentUser?.uid == null) {
             PhoneAuthFragment().also {
                 PhoneAuthPresenter(it)
             }.let {
@@ -42,9 +42,8 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(User::class.java)
                     if (user?.username.isNullOrEmpty()) {
-                        ref.child("phoneNumber").get().addOnCompleteListener {
                             val bundle = Bundle()
-                            val phone = it.result?.value
+                            val phone = firebaseAuth.currentUser!!.phoneNumber
                             bundle.putString("phone", phone.toString())
                             RegisterFragment().also {
                                 it.arguments = bundle
@@ -53,7 +52,6 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
                                 supportFragmentManager.beginTransaction().add(R.id.frame_layout, it)
                                     .commit()
                             }
-                        }
                     } else {
                         UnlockFragment().also {
                             UnlockPresenter(
@@ -104,6 +102,7 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
     override fun toMain() {
         val intent = Intent(this, AppActivity::class.java)
         startActivity(intent)
+        finish()
     }
 
     override fun toVerify(string: String, id: String) {

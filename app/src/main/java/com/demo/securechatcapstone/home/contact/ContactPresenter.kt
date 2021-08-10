@@ -21,16 +21,19 @@ class ContactPresenter(val view: ContactContract.View) : ContactContract.Present
     private val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
     private val firebaseDatabase = FirebaseDatabase.getInstance()
 
-    override fun getUserFriends() {
-        val uid = firebaseAuth?.uid
-        val friends = HashMap<String, UserFriend?>()
-        val ref = firebaseDatabase.getReference("/users/$uid/friends")
-        ref.addValueEventListener(object : ValueEventListener {
+    override fun getLimitUser() {
+        val users = mutableListOf<User>()
+        val ref = firebaseDatabase.getReference("/users").limitToLast(10)
+        ref.keepSynced(true)
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
-                    friends.put(it.key!!, it.getValue(UserFriend::class.java))
+                    val user = it.getValue(User::class.java)
+                    if (user != null && user?.uid != firebaseAuth.currentUser?.uid) {
+                        users.add(user)
+                    }
                 }
-                getUserFromDB(friends)
+                view.showListContact(users)
             }
 
             override fun onCancelled(error: DatabaseError) {
@@ -38,15 +41,15 @@ class ContactPresenter(val view: ContactContract.View) : ContactContract.Present
         })
     }
 
-    override fun getUserFromDB(friend: HashMap<String, UserFriend?>) {
-        fetchCurrentUserLogin()
+    override fun getUserWithText(text: String) {
         val users = mutableListOf<User>()
-        val ref = firebaseDatabase.getReference("/users")
+        val ref = firebaseDatabase.getReference("/users").orderByChild("username").startAt(text)
+            .endAt(text + "\uf8ff")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
                     val user = it.getValue(User::class.java)
-                    if (user?.uid != currentLoginUser?.uid && user != null && user?.uid in friend.keys) {
+                    if (user != null && user.uid != firebaseAuth.currentUser?.uid) {
                         users.add(user)
                     }
                 }
@@ -73,8 +76,8 @@ class ContactPresenter(val view: ContactContract.View) : ContactContract.Present
         })
     }
 
-    override fun verifyUserLoggedIn(): String {
-        return firebaseAuth.uid.toString()
+    override fun verifyUserLoggedIn(): Boolean {
+        return firebaseAuth.currentUser?.uid == null
     }
 
     override fun start() {

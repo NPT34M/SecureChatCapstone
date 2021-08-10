@@ -19,9 +19,8 @@ class OTPVerifyPresenter(val view: OTPVerifyContract.View) : OTPVerifyContract.P
                 val uid = it.result?.user?.uid
                 firebaseDatabase.getReference("/users/${it.result?.user?.uid}").child("username")
                     .get().addOnCompleteListener {
-                        val displayName = it.result?.value.toString()
-                        if (displayName.isNullOrEmpty()) {
-                            savePhoneNumberToDatabase(uid, phone)
+                        val displayName = it.result?.value
+                        if (displayName == null) {
                             view.verifySuccess(phone)
                         }else{
                             view.verifySuccess()
@@ -29,11 +28,6 @@ class OTPVerifyPresenter(val view: OTPVerifyContract.View) : OTPVerifyContract.P
                     }
             }
         }
-    }
-
-    private fun savePhoneNumberToDatabase(uid: String?, phone: String) {
-        val ref = firebaseDatabase.getReference("/users/${uid}/phoneNumber")
-        ref.setValue(phone)
     }
 
     override fun start() {

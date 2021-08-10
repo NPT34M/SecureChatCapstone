@@ -39,9 +39,9 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
         val phoneNumber = arguments?.getString("phoneNum")
         tvPhoneNumOTP.text = phoneNumber
         var verificationId = arguments?.getString("verifyId")
-        startTimer()
+//        startTimer(true)
         tvResendOTP.setOnClickListener {
-            startTimer()
+//            startTimer(true)
             val options: PhoneAuthOptions = PhoneAuthOptions.newBuilder(firebaseAuth)
                 .setPhoneNumber(phoneNumber!!)
                 .setTimeout(60L, TimeUnit.SECONDS)
@@ -61,10 +61,12 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
 
             override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 verificationId = p0
+                Toast.makeText(requireContext(), "Code sent", Toast.LENGTH_SHORT).show()
             }
         }
         btnOTPVerify.setOnClickListener {
             showProgress(true)
+            startTimer(false)
             btnOTPVerify.isEnabled = false
             if (pinViewOTP.text.toString().isEmpty()) {
                 verifyFail("Code can not blank!")
@@ -79,7 +81,7 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
         }
     }
 
-    private fun startTimer() {
+    private fun startTimer(flag: Boolean) {
         val finish: Long = 60 * 1000
         val tick: Long = 1000
         tvResendOTP.visibility = View.GONE
@@ -95,6 +97,9 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
                 cancel()
             }
         }.start()
+        if (!flag) {
+            countDownTimer.cancel()
+        }
     }
 
     override fun showProgress(boolean: Boolean) {

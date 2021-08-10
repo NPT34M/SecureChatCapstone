@@ -27,12 +27,12 @@ class RegisterPresenter(val view: RegisterContract.View) :
             view.registerFail("Please choose your avatar!")
             return
         }
-        firebaseDatabase.getReference("/users/${firebaseAuth.uid}").removeValue()
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    uploadPhotoToFirebaseStorage(username, uri, phoneNum)
-                }
-            }
+//        firebaseDatabase.getReference("/users/${firebaseAuth.uid}").removeValue()
+//            .addOnCompleteListener {
+//                if (it.isSuccessful) {
+        uploadPhotoToFirebaseStorage(username, uri, phoneNum)
+//                }
+//            }
     }
 
     fun uploadPhotoToFirebaseStorage(username: String, uri: Uri?, phoneNum: String) {
