@@ -35,6 +35,7 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile), MyProfileContr
     override fun setUser(user: User?) {
         Picasso.get().load(user?.profileImage).into(imgProfile)
         tvUsernameProfile.text = user?.username
+        tvPhoneNumber.text = user?.phoneNumber
     }
 
     override fun onDetach() {
