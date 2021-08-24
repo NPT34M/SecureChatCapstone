@@ -67,7 +67,7 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
     }
 
     override fun registerSuccess() {
-        progressBar.visibility = View.GONE
+//        progressBar.visibility = View.GONE
         Toast.makeText(requireContext(), "Register Successful!", Toast.LENGTH_SHORT).show()
         callback?.registerToUnlock()
     }

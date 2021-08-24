@@ -1,5 +1,6 @@
 package com.demo.securechatcapstone.authen.unlock
 
+import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -22,22 +23,11 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        showProgress(true)
-        if (!presenter.isExist()) {
-            setText("This is new account. Please create your password \n(This password use to unlock application)")
-            showProgress(false)
-            btnUnlockSubmit.setOnClickListener {
-//                if (presenter.createUserInfoLocal(getPassword())) {
-//                    unlockSuccess()
-//                    callback?.toMain()
-//                } else {
-//                    unlockFail()
-//                }
-                presenter.createUserInfoLocal(getPassword())
-            }
+//        showProgress(true)
+        if (!presenter.isUserInfoExistInDevice()) {
+            presenter.loadPrivateInfoFromDB()
         } else {
             setText("Enter password to unlock application")
-            showProgress(false)
             btnUnlockSubmit.setOnClickListener {
                 if (presenter.checkUnlockPassword(getPassword())) {
                     unlockSuccess()
@@ -52,7 +42,26 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
         }
     }
 
-    fun setText(s: String) {
+    override fun loadFromRealTimeDBAndUnlock(){
+        setText("You must remember and input unlock password when register user info")
+        btnUnlockSubmit.setOnClickListener {
+            presenter.checkSignaturePrivateInfo(getPassword())
+        }
+    }
+
+    override fun createNew() {
+        setText(
+            "This is new account. Please create your password +" +
+                    "\n(This password use to unlock application)+" +
+                    "\n[Password must have 8 character, a-z, A-Z, 0-9 and special character(!@#$%^&*), can not contain blank]" +
+                    "\n You must be remember this password for changing device, We doesn't save it"
+        )
+        btnUnlockSubmit.setOnClickListener {
+            presenter.createUserInfoLocal(getPassword())
+        }
+    }
+
+    private fun setText(s: String) {
         tvUnlock.text = s
     }
 
@@ -65,6 +74,18 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
 
     override fun getPassword(): String {
         return edtUnlockPassword.text.toString()
+    }
+
+    override fun dialog() {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("STOP")
+        builder.setMessage("This key will be modified!!")
+
+        builder.setPositiveButton("OK", { dialog, which ->
+            return@setPositiveButton
+        })
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
     }
 
     override fun unlockSuccess() {

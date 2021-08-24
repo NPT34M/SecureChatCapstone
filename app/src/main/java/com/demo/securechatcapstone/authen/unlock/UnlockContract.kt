@@ -9,12 +9,17 @@ interface UnlockContract {
         fun getPassword(): String
         fun unlockSuccess()
         fun unlockFail()
+        fun loadFromRealTimeDBAndUnlock()
+        fun createNew()
+        fun dialog()
     }
 
     interface Presenter : BasePresenter {
         fun verifyLogin(): Boolean
-        fun isExist(): Boolean
-        fun createUserInfoLocal(string: String)
+        fun loadPrivateInfoFromDB()
+        fun isUserInfoExistInDevice(): Boolean
+        fun createUserInfoLocal(password: String)
+        fun checkSignaturePrivateInfo(password: String)
         fun checkUnlockPassword(string: String): Boolean
     }
 }

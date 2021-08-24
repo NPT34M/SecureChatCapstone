@@ -10,25 +10,27 @@ import com.demo.securechatcapstone.R
 import com.demo.securechatcapstone.adapter.UserAdapter
 import com.demo.securechatcapstone.model.User
 import kotlinx.android.synthetic.main.fragment_contact.*
+import javax.inject.Inject
 
 class ContactFragment() : Fragment(R.layout.fragment_contact), ContactContract.View {
 
-
+    @Inject
     override lateinit var presenter: ContactContract.Presenter
 
     interface CallBack {
         fun backToLogin()
         fun toChatLog(user: User)
+        fun toDailyChat(user: User)
         fun toFriendProfile(user: User)
     }
 
-    var callback: CallBack? = null
+    var callback: CallBack? = null;
 
     private var adapter = UserAdapter({
         callback?.toChatLog(it)
     }, {
         callback?.toFriendProfile(it)
-    })
+    }, { callback?.toDailyChat(it) })
 
     override fun showListContact(users: List<User>) {
         adapter.setData(users)
@@ -51,7 +53,6 @@ class ContactFragment() : Fragment(R.layout.fragment_contact), ContactContract.V
             }
 
             override fun afterTextChanged(s: Editable?) {
-                presenter.getLimitUser()
             }
         })
         rcvFragmentContact.adapter = adapter

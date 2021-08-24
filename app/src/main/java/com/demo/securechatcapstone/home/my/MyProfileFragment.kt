@@ -8,6 +8,7 @@ import com.demo.securechatcapstone.R
 import com.demo.securechatcapstone.model.User
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.fragment_my_profile.*
+import javax.inject.Inject
 
 class MyProfileFragment : Fragment(R.layout.fragment_my_profile), MyProfileContract.View {
 
@@ -16,7 +17,9 @@ class MyProfileFragment : Fragment(R.layout.fragment_my_profile), MyProfileContr
     }
 
     var callback: CallBack? = null
+    @Inject
     override lateinit var presenter: MyProfileContract.Presenter
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         presenter.getUserInfo()

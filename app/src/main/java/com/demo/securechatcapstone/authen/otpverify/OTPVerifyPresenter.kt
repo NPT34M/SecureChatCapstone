@@ -17,7 +17,7 @@ class OTPVerifyPresenter(val view: OTPVerifyContract.View) : OTPVerifyContract.P
             view.showProgress(false)
             if (it.isSuccessful) {
                 val uid = it.result?.user?.uid
-                firebaseDatabase.getReference("/users/${it.result?.user?.uid}").child("username")
+                firebaseDatabase.getReference("/users/${uid}").child("username")
                     .get().addOnCompleteListener {
                         val displayName = it.result?.value
                         if (displayName == null) {
@@ -26,6 +26,9 @@ class OTPVerifyPresenter(val view: OTPVerifyContract.View) : OTPVerifyContract.P
                             view.verifySuccess()
                         }
                     }
+            }else{
+                //
+                view.verifyFail(it.exception.toString())
             }
         }
     }

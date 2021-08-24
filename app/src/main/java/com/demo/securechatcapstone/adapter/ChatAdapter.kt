@@ -2,6 +2,7 @@ package com.demo.securechatcapstone.adapter
 
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
+import android.graphics.Color
 import android.util.Base64
 import android.view.LayoutInflater
 import android.view.View
@@ -14,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.demo.securechatcapstone.R
 import com.demo.securechatcapstone.model.ChatMessage
 import com.demo.securechatcapstone.model.User
+import com.google.firebase.database.collection.LLRBNode
 import com.squareup.picasso.Picasso
 
 const val VIEW_TYPE_FROM = 1
@@ -38,10 +40,12 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
         var chatMessage: ChatMessage? = null
         private val textView: TextView
         private val imageViewSend: ImageView
+        private val imageDailyMessage: ImageView
 
         init {
             textView = view.findViewById(R.id.tvFromRow)
             imageViewSend = view.findViewById(R.id.imgSendFromUser)
+            imageDailyMessage = view.findViewById(R.id.imgDailyMessageFrom)
         }
 
         fun bindData(chatMessage: ChatMessage) {
@@ -52,6 +56,9 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
                 val re = chatMessage.text.replace("\n", "")
                 decodeImage(re, imageViewSend)
             } else {
+                if (chatMessage.dailyMessage) {
+                    imageDailyMessage.visibility = View.VISIBLE
+                }
                 imageViewSend.visibility = View.GONE
                 textView.visibility = View.VISIBLE
                 textView.text = chatMessage.text
@@ -70,11 +77,13 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
         private val textView: TextView
         private val imageView: ImageView
         private val imageViewSend: ImageView
+        private val imageDailyMessage: ImageView
 
         init {
             textView = view.findViewById(R.id.tvToRow)
             imageView = view.findViewById(R.id.imgToRow)
             imageViewSend = view.findViewById(R.id.imgSendToUser)
+            imageDailyMessage = view.findViewById(R.id.imgDailyMessageTo)
         }
 
         fun bindData(chatMessage: ChatMessage, user: User) {
@@ -85,6 +94,9 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
                 val re = chatMessage.text.replace("\n", "")
                 decodeImage(re, imageViewSend)
             } else {
+                if (chatMessage.dailyMessage) {
+                    imageDailyMessage.visibility = View.VISIBLE
+                }
                 textView.visibility = View.VISIBLE
                 imageViewSend.visibility = View.GONE
                 textView.text = chatMessage.text
@@ -108,7 +120,7 @@ class ChatAdapter(val curentUserUid: String, val anotherUser: User?) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ChatViewHolder {
-        var view: View
+        val view: View
         if (viewType == VIEW_TYPE_FROM) {
             view =
                 LayoutInflater.from(parent.context).inflate(R.layout.chat_from_row, parent, false)

@@ -4,18 +4,17 @@ import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
-@Entity
+@Entity(tableName = "conversations")
 data class ConversationInfoLocal(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
 
-    @ColumnInfo(name = "fromUId")
-    val fromUserId: String?,
-
-    @ColumnInfo(name = "ToUId")
+    @ColumnInfo(name = "toUId")
     val toUserId: String?,
 
     @ColumnInfo(name = "key_exchange")
-    val keyExchange:String?
+    val keyExchange: String?
 
-)
+) {
+    constructor(toUid: String?, keyExchange: String?) : this(0, toUid, keyExchange)
+}

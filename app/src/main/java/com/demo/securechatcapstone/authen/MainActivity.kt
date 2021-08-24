@@ -38,6 +38,7 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
             }
         } else {
             val ref = firebaseDatabase.getReference("/users/${firebaseAuth.uid}")
+            ref.keepSynced(true)
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(User::class.java)

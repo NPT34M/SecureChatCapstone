@@ -3,71 +3,62 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/radial_gradient_home"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".chat.chatLog.ChatLogFragment">
+    tools:context=".chat.dailyChat.DailyChatFragment">
 
 
     <EditText
-        android:id="@+id/edtTextChatLog"
+        android:id="@+id/edtTextDailyChat"
         android:layout_width="0dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
+        android:layout_marginStart="8dp"
         android:background="@drawable/radius_fill"
         android:ems="10"
         android:hint="Enter Message"
         android:inputType="textPersonName"
         android:paddingLeft="15dp"
+        android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/btnSendMessageChatLog"
-        app:layout_constraintStart_toEndOf="@id/btnImgSend" />
+        app:layout_constraintEnd_toStartOf="@+id/btnSendMessageDailyChat"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
     <ImageButton
-        android:id="@+id/btnSendMessageChatLog"
+        android:id="@+id/btnSendMessageDailyChat"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:rotation="-40"
         android:background="#F3ECC2"
+        android:rotation="-40"
+        android:layout_marginEnd="8dp"
         android:src="@drawable/icon_btn_send"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/edtTextChatLog"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewChatLog" />
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewDailyChat" />
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewChatLog"
+        android:id="@+id/recyclerViewDailyChat"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginBottom="8dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/edtTextChatLog"
+        app:layout_constraintBottom_toTopOf="@+id/edtTextDailyChat"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/tvDailyNotify" />
 
-    <ImageButton
-        android:id="@+id/btnImgSend"
-        android:layout_width="wrap_content"
+    <TextView
+        android:id="@+id/tvDailyNotify"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginBottom="8dp"
-        android:background="#F3ECC2"
-        android:src="@drawable/icon_btn_send_image"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/edtTextChatLog"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:background="@color/blue"
+        android:text="This conversation will delete in 5:30 daily"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerViewChatLog" />
-
-
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

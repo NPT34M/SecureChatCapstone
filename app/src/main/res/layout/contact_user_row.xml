@@ -5,8 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:background="@drawable/radius_fill"
     android:layout_marginTop="10dp"
-    android:layout_marginRight="50dp"
-    android:layout_marginLeft="10dp"
+    android:layout_marginRight="30dp"
+    android:layout_marginLeft="30dp"
     android:paddingTop="10dp"
     android:paddingBottom="10dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">

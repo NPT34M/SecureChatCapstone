@@ -17,11 +17,6 @@ import kotlinx.android.synthetic.main.fragment_phone_auth.*
 import java.util.concurrent.TimeUnit
 
 class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContract.View {
-    companion object {
-        val STRING_TRY_SENT_OTP = "Try resent code after "
-        val STRING_NOTIFY_OTP = "Didn't get the code?"
-    }
-
     override lateinit var presenter: OTPVerifyContract.Presenter
 
     val firebaseAuth: FirebaseAuth = FirebaseAuth.getInstance()
@@ -39,9 +34,9 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
         val phoneNumber = arguments?.getString("phoneNum")
         tvPhoneNumOTP.text = phoneNumber
         var verificationId = arguments?.getString("verifyId")
-//        startTimer(true)
+        startTimer()
         tvResendOTP.setOnClickListener {
-//            startTimer(true)
+            startTimer()
             val options: PhoneAuthOptions = PhoneAuthOptions.newBuilder(firebaseAuth)
                 .setPhoneNumber(phoneNumber!!)
                 .setTimeout(60L, TimeUnit.SECONDS)
@@ -55,7 +50,6 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
             }
 
             override fun onVerificationFailed(p0: FirebaseException) {
-                showProgress(false)
                 Toast.makeText(requireContext(), "$p0", Toast.LENGTH_SHORT).show()
             }
 
@@ -65,8 +59,6 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
             }
         }
         btnOTPVerify.setOnClickListener {
-            showProgress(true)
-            startTimer(false)
             btnOTPVerify.isEnabled = false
             if (pinViewOTP.text.toString().isEmpty()) {
                 verifyFail("Code can not blank!")
@@ -81,25 +73,34 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
         }
     }
 
-    private fun startTimer(flag: Boolean) {
-        val finish: Long = 60 * 1000
-        val tick: Long = 1000
-        tvResendOTP.visibility = View.GONE
-        val countDownTimer = object : CountDownTimer(finish, tick) {
-            override fun onTick(millisUntilFinished: Long) {
-                val remindSec: Long = millisUntilFinished / 1000;
+    val countDownTimer = object : CountDownTimer(60 * 1000, 1000) {
+        override fun onTick(millisUntilFinished: Long) {
+            val remindSec: Long = millisUntilFinished / 1000;
+            try {
+                tvResendOTP.visibility = View.GONE
                 tvOTP.setText("Try resent code after " + (remindSec / 60) + ":" + (remindSec % 60))
-            }
+            } catch (e: Exception) {
 
-            override fun onFinish() {
+            }
+        }
+
+        override fun onFinish() {
+            try {
                 tvResendOTP.visibility = View.VISIBLE
                 tvOTP.setText("Didn't get the code?")
-                cancel()
+            } catch (e: Exception) {
             }
-        }.start()
-        if (!flag) {
-            countDownTimer.cancel()
+            cancel()
         }
+    }
+
+    private fun startTimer() {
+        countDownTimer.cancel()
+        countDownTimer.start()
+    }
+
+    private fun stopTimer() {
+        countDownTimer.cancel()
     }
 
     override fun showProgress(boolean: Boolean) {
@@ -110,8 +111,8 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
     }
 
     override fun verifyFail(string: String) {
-        showProgress(false)
         Toast.makeText(requireContext(), string, Toast.LENGTH_SHORT).show()
+        btnOTPVerify.isEnabled = true
     }
 
     override fun verifySuccess(phone: String) {

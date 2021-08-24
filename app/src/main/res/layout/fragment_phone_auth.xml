@@ -33,7 +33,7 @@
         android:ems="10"
         android:inputType="textPersonName"
         android:text="+84"
-        android:layout_marginLeft="50dp"
+        android:layout_marginStart="50dp"
         android:layout_marginTop="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/spinnerContries" />
@@ -43,7 +43,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginRight="50dp"
+        android:layout_marginEnd="50dp"
         android:ems="10"
         android:inputType="phone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -53,7 +53,7 @@
     <Button
         android:id="@+id/btnSubmitPhoneAuth"
         android:layout_width="95dp"
-        android:layout_height="37dp"
+        android:layout_height="wrap_content"
         android:text="Submit"
         android:layout_marginTop="50dp"
         app:layout_constraintEnd_toEndOf="parent"

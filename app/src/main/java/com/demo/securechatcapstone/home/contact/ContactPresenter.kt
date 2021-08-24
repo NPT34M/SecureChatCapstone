@@ -23,7 +23,7 @@ class ContactPresenter(val view: ContactContract.View) : ContactContract.Present
 
     override fun getLimitUser() {
         val users = mutableListOf<User>()
-        val ref = firebaseDatabase.getReference("/users").limitToLast(10)
+        val ref = firebaseDatabase.getReference("/users").orderByChild("username")
         ref.keepSynced(true)
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {

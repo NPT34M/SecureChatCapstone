@@ -10,11 +10,20 @@ import com.demo.securechatcapstone.R
 import com.demo.securechatcapstone.model.User
 import com.squareup.picasso.Picasso
 
-class UserAdapter(val onClick: (User) -> Unit, val onImageClick:(User)->Unit) :
+class UserAdapter(
+    val onClick: (User) -> Unit,
+    val onImageClick: (User) -> Unit,
+    val onlongclick: (User) -> Unit
+) :
     RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
     private var data: List<User> = mutableListOf()
 
-    class UserViewHolder(view: View, onClick: (User) -> Unit, onImageClick:(User)->Unit) : RecyclerView.ViewHolder(view) {
+    class UserViewHolder(
+        view: View,
+        onClick: (User) -> Unit,
+        onImageClick: (User) -> Unit,
+        onlongclick: (User) -> Unit
+    ) : RecyclerView.ViewHolder(view) {
         private var user: User? = null
         private val textView: TextView
         private val imageView: ImageView
@@ -27,6 +36,10 @@ class UserAdapter(val onClick: (User) -> Unit, val onImageClick:(User)->Unit) :
             }
             view.setOnClickListener {
                 user?.let { onClick.invoke(it) }
+            }
+            view.setOnLongClickListener {
+                user?.let { onlongclick.invoke(it) }
+                true
             }
         }
 
@@ -45,7 +58,7 @@ class UserAdapter(val onClick: (User) -> Unit, val onImageClick:(User)->Unit) :
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view =
             LayoutInflater.from(parent.context).inflate(R.layout.contact_user_row, parent, false)
-        return UserViewHolder(view, onClick, onImageClick)
+        return UserViewHolder(view, onClick, onImageClick, onlongclick)
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {

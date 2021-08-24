@@ -20,13 +20,16 @@ class LatestMessageFragment : Fragment(R.layout.fragment_latest_message),
     interface CallBack {
         fun signOutFromLatest()
         fun latestToChatLog(user: User)
+        fun latestToDaily(user: User)
+        fun showBottomSheet(user: User)
     }
 
     var callBack: CallBack? = null
 
-    private val adapter = LatestMessageAdapter {
+    private val adapter = LatestMessageAdapter({
         callBack?.latestToChatLog(it)
-    }
+    }, { callBack?.latestToDaily(it) },
+        { callBack?.showBottomSheet(it) })
 
     override fun showLatestMessage(listLatestMessage: List<LatestMessageModel>) {
         adapter?.submitList(listLatestMessage)

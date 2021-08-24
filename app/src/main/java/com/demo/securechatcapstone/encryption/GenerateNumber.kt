@@ -7,7 +7,14 @@ class GenerateNumber {
         return g.modPow(privKey, p)
     }
 
-    fun secretKeyExchange(prime: BigInteger, publicKey: BigInteger, privateKey: BigInteger): BigInteger {
+    fun secretKeyExchange(
+        primeStr: String,
+        publicKeyStr: String,
+        privateKeyStr: String
+    ): BigInteger {
+        val prime = BigInteger(primeStr)
+        val publicKey = BigInteger(publicKeyStr)
+        val privateKey = BigInteger(privateKeyStr)
         return publicKey.modPow(privateKey, prime)
     }
 }
