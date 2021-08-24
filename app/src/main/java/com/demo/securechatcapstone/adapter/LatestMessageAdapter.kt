@@ -120,8 +120,7 @@ class LatestMessageAdapter(
 
     class LatestMessageDailyViewHolder(
         view: View,
-        onclicktype2: (User) -> Unit,
-        onlongclick: (User) -> Unit
+        onclicktype2: (User) -> Unit
     ) :
         Latest(view) {
         var latesMessage: LatestMessageModel? = null
@@ -138,10 +137,6 @@ class LatestMessageAdapter(
             latestTime = view.findViewById(R.id.tvLatestDateTimeDaily)
             view.setOnClickListener {
                 user?.let { onclicktype2.invoke(it) }
-            }
-            view.setOnLongClickListener {
-                user?.let { onlongclick.invoke(it) }
-                true
             }
         }
 
@@ -196,7 +191,7 @@ class LatestMessageAdapter(
         if (viewType == VIEW_TYPE_DAILY) {
             view = LayoutInflater.from(parent.context)
                 .inflate(R.layout.latest_message_daily_row, parent, false)
-            return LatestMessageDailyViewHolder(view, onclicktype2, onlongclick)
+            return LatestMessageDailyViewHolder(view, onclicktype2)
         } else {
             view =
                 LayoutInflater.from(parent.context).inflate(R.layout.latest_mess_row, parent, false)
