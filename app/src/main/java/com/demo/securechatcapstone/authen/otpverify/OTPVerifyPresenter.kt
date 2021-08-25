@@ -14,7 +14,6 @@ class OTPVerifyPresenter(val view: OTPVerifyContract.View) : OTPVerifyContract.P
 
     override fun signWithCredential(credential: PhoneAuthCredential, phone: String) {
         firebaseAuth.signInWithCredential(credential).addOnCompleteListener {
-            view.showProgress(false)
             if (it.isSuccessful) {
                 val uid = it.result?.user?.uid
                 firebaseDatabase.getReference("/users/${uid}").child("username")

@@ -29,7 +29,6 @@ class PhoneAuthFragment : Fragment(R.layout.fragment_phone_auth), PhoneAuthContr
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         btnSubmitPhoneAuth.setOnClickListener {
-            showProgress(true)
             btnSubmitPhoneAuth.visibility = View.GONE
             if (presenter.numberValidation(getPhoneNumber(), getContryCode())) {
                 val phoneResult = getContryCode() + getPhoneNumber()
@@ -49,7 +48,6 @@ class PhoneAuthFragment : Fragment(R.layout.fragment_phone_auth), PhoneAuthContr
             }
 
             override fun onVerificationFailed(p0: FirebaseException) {
-                showProgress(false)
                 Toast.makeText(requireContext(), "$p0", Toast.LENGTH_SHORT).show()
                 Log.e("AAA","${p0}")
                 btnSubmitPhoneAuth.visibility = View.VISIBLE
@@ -57,7 +55,6 @@ class PhoneAuthFragment : Fragment(R.layout.fragment_phone_auth), PhoneAuthContr
 
             override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
                 super.onCodeSent(p0, p1)
-                showProgress(false)
                 val mobile = getContryCode() + getPhoneNumber()
                 submitSuccess(mobile, p0)
             }
@@ -70,15 +67,7 @@ class PhoneAuthFragment : Fragment(R.layout.fragment_phone_auth), PhoneAuthContr
     }
 
     override fun submitFail(err: String) {
-        showProgress(false)
         Toast.makeText(requireContext(), err, Toast.LENGTH_SHORT).show()
-    }
-
-    override fun showProgress(flag: Boolean) {
-        if (flag) {
-            phoneAuthProgressBar.visibility = View.VISIBLE
-        }
-        phoneAuthProgressBar.visibility = View.GONE
     }
 
     override fun getContryCode(): String {

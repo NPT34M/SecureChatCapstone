@@ -5,7 +5,6 @@ import com.demo.securechatcapstone.BaseView
 
 interface UnlockContract {
     interface View : BaseView<Presenter> {
-        fun showProgress(boolean: Boolean)
         fun getPassword(): String
         fun unlockSuccess()
         fun unlockFail()

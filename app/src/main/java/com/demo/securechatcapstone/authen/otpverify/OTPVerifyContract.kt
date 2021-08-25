@@ -6,7 +6,6 @@ import com.google.firebase.auth.PhoneAuthCredential
 
 interface OTPVerifyContract {
     interface View : BaseView<Presenter> {
-        fun showProgress(boolean: Boolean)
         fun verifyFail(string: String)
         fun verifySuccess(phone: String)
         fun verifySuccess()

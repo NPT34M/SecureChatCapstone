@@ -139,7 +139,7 @@ class AppActivity : AppCompatActivity(), ContactFragment.CallBack, MyProfileFrag
         builder.setMessage("Do you want to delete this conversation?")
 
         builder.setPositiveButton("OK", { dialog, which ->
-            firebaseDatabase.getReference("latest-messages/${FirebaseAuth.getInstance().uid}/${user.uid}")
+            firebaseDatabase.getReference("latest-messages/${FirebaseAuth.getInstance().uid}/message/${user.uid}")
                 .removeValue().addOnCompleteListener {
                     if (it.isSuccessful) {
                         firebaseDatabase.getReference("users-messages/${FirebaseAuth.getInstance().uid}/${user.uid}")

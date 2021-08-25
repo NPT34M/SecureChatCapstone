@@ -51,8 +51,8 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
 
     override fun createNew() {
         setText(
-            "This is new account. Please create your password +" +
-                    "\n(This password use to unlock application)+" +
+            "This is new account. Please create your password " +
+                    "\n(This password use to unlock application)" +
                     "\n[Password must have 8 character, a-z, A-Z, 0-9 and special character(!@#$%^&*), can not contain blank]" +
                     "\n You must be remember this password for changing device, We doesn't save it"
         )
@@ -63,13 +63,6 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
 
     private fun setText(s: String) {
         tvUnlock.text = s
-    }
-
-    override fun showProgress(boolean: Boolean) {
-        if (boolean == true) {
-            progressBarUnlock.visibility = View.VISIBLE
-        }
-        progressBarUnlock.visibility = View.GONE
     }
 
     override fun getPassword(): String {

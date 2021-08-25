@@ -27,7 +27,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
         val phoneNumber = arguments?.getString("phone")
         edtRegisterPhoneNumber.setText(phoneNumber.toString())
         btnRegister.setOnClickListener {
-            showRegisterProgress(true)
             presenter.register(getUsername(),getPhotoSelectURI(),phoneNumber!!)
         }
         imvChooseAvatar.setOnClickListener {
@@ -56,14 +55,6 @@ class RegisterFragment : Fragment(R.layout.fragment_register), RegisterContract.
     override fun clearAll() {
         edtUsername.text.clear()
         imvChooseAvatar.setImageDrawable(null)
-    }
-
-
-    override fun showRegisterProgress(boolean: Boolean) {
-        if (boolean) {
-            progressBar.visibility = View.VISIBLE
-        }
-        progressBar.visibility = View.GONE
     }
 
     override fun registerSuccess() {

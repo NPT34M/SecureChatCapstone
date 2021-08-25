@@ -7,7 +7,6 @@ interface PhoneAuthContract {
     interface View : BaseView<Presenter> {
         fun submitSuccess(num: String, id: String)
         fun submitFail(err: String)
-        fun showProgress(flag: Boolean)
         fun getContryCode(): String
         fun getPhoneNumber(): String
     }

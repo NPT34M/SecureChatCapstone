@@ -103,13 +103,6 @@ class OTPVerifyFragment : Fragment(R.layout.fragment_otp_verify), OTPVerifyContr
         countDownTimer.cancel()
     }
 
-    override fun showProgress(boolean: Boolean) {
-        if (boolean) {
-            OTPProgress.visibility = View.VISIBLE
-        }
-        OTPProgress.visibility = View.GONE
-    }
-
     override fun verifyFail(string: String) {
         Toast.makeText(requireContext(), string, Toast.LENGTH_SHORT).show()
         btnOTPVerify.isEnabled = true

@@ -6,7 +6,6 @@ import com.demo.securechatcapstone.BaseView
 
 interface RegisterContract {
     interface View : BaseView<Presenter> {
-        fun showRegisterProgress(boolean: Boolean)
         fun registerSuccess()
         fun registerFail(message: String)
         fun getUsername(): String

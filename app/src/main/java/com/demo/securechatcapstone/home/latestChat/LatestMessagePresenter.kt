@@ -41,6 +41,7 @@ class LatestMessagePresenter(val view: LatestMessageContract.View, appDatabase: 
         val fromId = firebaseAuth.uid
         val ref =
             firebaseDatabase.getReference("/latest-messages/$fromId")
+        ref.keepSynced(true)
         ref.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val latestMessageList = mutableListOf<ChatMessage>()
@@ -116,7 +117,6 @@ class LatestMessagePresenter(val view: LatestMessageContract.View, appDatabase: 
                     if (latestMessageList.size == list.size) {
                         showLatest(latestMessageList)
                     }
-//                    view.showLatestMessage(latestMessageList)
                 }
 
                 override fun onCancelled(error: DatabaseError) {
