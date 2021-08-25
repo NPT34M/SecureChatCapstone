@@ -4,8 +4,49 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/radial_gradient_home"
     tools:context=".chat.dailyChat.DailyChatFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarDailyChat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/black">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgDailyChat"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:accessibilityTraversalBefore="@id/toolbarChatLog"
+            android:background="@drawable/ic_profile"
+            android:layout_marginEnd="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvNameDailyChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tvStatusDailyChat"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Offline"
+                android:textSize="12sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+
+    </androidx.appcompat.widget.Toolbar>
 
     <EditText
         android:id="@+id/edtTextDailyChat"
@@ -59,6 +100,16 @@
         android:text="This conversation will delete in 5:30 daily"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarDailyChat" />
 
+    <ImageView
+        android:id="@+id/icon_infor_daily"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/toolbarDailyChat"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_infor" />
 </androidx.constraintlayout.widget.ConstraintLayout>

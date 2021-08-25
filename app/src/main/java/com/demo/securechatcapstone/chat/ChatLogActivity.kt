@@ -31,8 +31,6 @@ class ChatLogActivity : AppCompatActivity(), ChatLogFragment.Callback, DailyChat
         setContentView(R.layout.activity_chat_log)
         toUser = intent.getParcelableExtra(AppActivity.USER_KEY)
         val type = intent.getBooleanExtra(AppActivity.CHAT_TYPE, false)
-        Picasso.get().load(toUser?.profileImage).into(imgChatLog)
-        tvNameChatLog.text = toUser?.username
         if (type) {
             DailyChatFragment(toUser).also {
                 DailyChatPresenter(
@@ -54,25 +52,6 @@ class ChatLogActivity : AppCompatActivity(), ChatLogFragment.Callback, DailyChat
                     .replace(R.id.frame_layout_chat_log, it).commit()
             }
         }
-        val appDatabase = LocalDataSource.getAppDatabase(applicationContext, firebaseAuth.uid!!)
-        val conversationDao = appDatabase.ConversationInfoLocalDAO()
-        val hashKey = Hashing().hash(conversationDao.getOneKeyExchange(toUser?.uid!!), "SHA-256")
-        val rs = hashKey.substring(0,16)+"\n"+hashKey.substring(16,32)+"\n"+hashKey.substring(32,48)+"\n"+hashKey.substring(48)
-        icon_infor.setOnClickListener {
-            displayDialogCheck(rs)
-        }
-    }
-
-    private fun displayDialogCheck(hashKey: String) {
-        val builder: AlertDialog.Builder = AlertDialog.Builder(this)
-        builder.setTitle("CONFIRM KEY EXCHANGE")
-        builder.setMessage(hashKey)
-
-        builder.setPositiveButton("OK", { dialog, which ->
-            return@setPositiveButton
-        })
-        val alertDialog: AlertDialog = builder.create()
-        alertDialog.show()
     }
 
     override fun toApp() {

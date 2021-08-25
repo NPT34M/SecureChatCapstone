@@ -12,11 +12,15 @@ import android.util.Base64
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.View
+import android.widget.Toast
 import com.demo.securechatcapstone.adapter.ChatAdapter
 import com.demo.securechatcapstone.R
+import com.demo.securechatcapstone.encryption.Hashing
 import com.demo.securechatcapstone.model.ChatMessage
 import com.demo.securechatcapstone.model.User
 import com.google.firebase.auth.FirebaseAuth
+import com.squareup.picasso.Picasso
+import kotlinx.android.synthetic.main.activity_chat_log.*
 import kotlinx.android.synthetic.main.fragment_chat_log.*
 import java.io.ByteArrayOutputStream
 import javax.inject.Inject
@@ -46,6 +50,8 @@ class ChatLogFragment(val toUser: User?) :
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        Picasso.get().load(toUser?.profileImage).into(imgChatLog)
+        tvNameChatLog.text = toUser?.username
         presenter.getKeyExchange(toUser)
         recyclerViewChatLog?.adapter = adapter
         btnSendMessageChatLog.setOnClickListener {
@@ -53,6 +59,9 @@ class ChatLogFragment(val toUser: User?) :
         }
         btnImgSend.setOnClickListener {
             pickFromGallery()
+        }
+        icon_infor.setOnClickListener {
+            presenter.showKeyExchange(toUser)
         }
     }
 
@@ -94,6 +103,18 @@ class ChatLogFragment(val toUser: User?) :
 
     override fun clearText() {
         edtTextChatLog?.text?.clear()
+    }
+
+    override fun showKeyExchange(str: String) {
+        val builder: AlertDialog.Builder = AlertDialog.Builder(requireContext())
+        builder.setTitle("CONFIRM KEY EXCHANGE")
+        builder.setMessage(str)
+
+        builder.setPositiveButton("OK", { dialog, which ->
+            return@setPositiveButton
+        })
+        val alertDialog: AlertDialog = builder.create()
+        alertDialog.show()
     }
 
     override fun onDetach() {

@@ -46,8 +46,6 @@ class PhoneAuthFragment : Fragment(R.layout.fragment_phone_auth), PhoneAuthContr
         }
         phoneAuthCallbacks = object : PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
             override fun onVerificationCompleted(p0: PhoneAuthCredential) {
-//                showProgress(false)
-//                btnSubmitPhoneAuth.visibility = View.VISIBLE
             }
 
             override fun onVerificationFailed(p0: FirebaseException) {

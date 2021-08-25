@@ -4,6 +4,7 @@ import android.util.Log
 import com.demo.securechatcapstone.App
 import com.demo.securechatcapstone.encryption.AESCrypto
 import com.demo.securechatcapstone.encryption.GenerateNumber
+import com.demo.securechatcapstone.encryption.Hashing
 import com.demo.securechatcapstone.encryption.RSACrypto
 import com.demo.securechatcapstone.localDB.AppDatabase
 import com.demo.securechatcapstone.localDB.conversation.ConversationInfoLocal
@@ -120,6 +121,16 @@ class DailyChatPresenter(val view:DailyChatContract.View,appDatabase: AppDatabas
             }
 
         })
+    }
+
+    override fun showKeyExchange(user: User?) {
+        val hashKey =
+            Hashing().hash(conversationDao.getOneKeyExchange(user?.uid!!), "SHA-256")
+        val rs = hashKey.substring(0, 16) + "\n" + hashKey.substring(
+            16,
+            32
+        ) + "\n" + hashKey.substring(32, 48) + "\n" + hashKey.substring(48)
+        view.showKeyExchange(rs)
     }
 
     override fun start() {

@@ -7,6 +7,45 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".chat.chatLog.ChatLogFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarChatLog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:minHeight="?attr/actionBarSize"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextColor="@color/black">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/imgChatLog"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:accessibilityTraversalBefore="@id/toolbarChatLog"
+            android:background="@drawable/ic_profile"
+            android:layout_marginEnd="10dp"/>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/tvNameChatLog"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/tvStatus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Offline"
+                android:textSize="12sp"
+                android:textStyle="italic"/>
+        </LinearLayout>
+
+    </androidx.appcompat.widget.Toolbar>
 
     <EditText
         android:id="@+id/edtTextChatLog"
@@ -51,8 +90,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarChatLog" />
 
     <ImageButton
         android:id="@+id/btnImgSend"
@@ -68,6 +106,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/recyclerViewChatLog" />
 
-
+    <ImageView
+        android:id="@+id/icon_infor"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="8dp"
+        android:textAlignment="center"
+        app:layout_constraintEnd_toEndOf="@+id/toolbarChatLog"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/icon_infor" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
