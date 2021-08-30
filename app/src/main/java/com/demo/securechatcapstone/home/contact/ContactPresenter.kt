@@ -2,7 +2,6 @@ package com.demo.securechatcapstone.home.contact
 
 import android.util.Log
 import com.demo.securechatcapstone.model.User
-import com.demo.securechatcapstone.model.UserFriend
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

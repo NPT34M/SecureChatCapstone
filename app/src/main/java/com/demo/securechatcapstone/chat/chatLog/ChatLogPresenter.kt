@@ -76,7 +76,8 @@ class ChatLogPresenter(val view: ChatLogContract.View, appDatabase: AppDatabase)
         if (fromId == null) return
         val fromRef = firebaseDatabase.getReference("/users-messages/$fromId/$toId").push()
         val toRef = firebaseDatabase.getReference("/users-messages/$toId/$fromId").push()
-        val cipherText = AESCrypto().encrypt(keyExchange.take(16), string)
+        val hashKeyExchange = Hashing().hash(keyExchange, "SHA-256")
+        val cipherText = AESCrypto().encrypt(hashKeyExchange.take(16), string)
         val chatMessage =
             ChatMessage(
                 fromRef.key!!,
@@ -110,9 +111,10 @@ class ChatLogPresenter(val view: ChatLogContract.View, appDatabase: AppDatabase)
                 val messageList = mutableListOf<ChatMessage>()
                 snapshot.children.forEach {
                     val chatMessage = it.getValue(ChatMessage::class.java)
+                    val hashKeyExchange = Hashing().hash(keyExchange!!, "SHA-256")
                     if (chatMessage != null) {
                         chatMessage.text =
-                            AESCrypto().decrypt(keyExchange!!.take(16), chatMessage.text)!!
+                            AESCrypto().decrypt(hashKeyExchange.take(16), chatMessage.text)!!
                         messageList.add(chatMessage)
                     }
                 }
@@ -129,10 +131,11 @@ class ChatLogPresenter(val view: ChatLogContract.View, appDatabase: AppDatabase)
     override fun showKeyExchange(user: User?) {
         val hashKey =
             Hashing().hash(conversationDao.getOneKeyExchange(user?.uid!!), "SHA-256")
-        val rs = hashKey.substring(0, 16) + "\n" + hashKey.substring(
-            16,
-            32
-        ) + "\n" + hashKey.substring(32, 48) + "\n" + hashKey.substring(48)
+        val i = 0
+        var rs = ""
+        while (i != hashKey.length) {
+            rs += hashKey.substring(i, i + 16)
+        }
         view.showKeyExchange(rs)
     }
 

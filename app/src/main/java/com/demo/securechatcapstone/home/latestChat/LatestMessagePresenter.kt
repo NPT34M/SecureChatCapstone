@@ -5,6 +5,7 @@ import android.widget.Toast
 import com.demo.securechatcapstone.App
 import com.demo.securechatcapstone.encryption.AESCrypto
 import com.demo.securechatcapstone.encryption.GenerateNumber
+import com.demo.securechatcapstone.encryption.Hashing
 import com.demo.securechatcapstone.encryption.RSACrypto
 import com.demo.securechatcapstone.localDB.AppDatabase
 import com.demo.securechatcapstone.localDB.conversation.ConversationInfoLocal
@@ -37,7 +38,6 @@ class LatestMessagePresenter(val view: LatestMessageContract.View, appDatabase: 
     private val conversationDao = appDatabase.ConversationInfoLocalDAO()
 
     override fun listenForLatestMessage() {
-//        fetchCurrentUserLogin()
         val fromId = firebaseAuth.uid
         val ref =
             firebaseDatabase.getReference("/latest-messages/$fromId")
@@ -103,7 +103,8 @@ class LatestMessagePresenter(val view: LatestMessageContract.View, appDatabase: 
                             return
                         }
                     }
-                    val text = AESCrypto().decrypt(keyExchange!!.take(16), it.text)
+                    val hashKeyExchange = Hashing().hash(keyExchange, "SHA-256")
+                    val text = AESCrypto().decrypt(hashKeyExchange.take(16), it.text)
                     val latestMess =
                         LatestMessageModel(
                             it.id,

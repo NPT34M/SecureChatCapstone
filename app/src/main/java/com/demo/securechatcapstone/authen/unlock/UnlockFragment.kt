@@ -7,7 +7,11 @@ import androidx.fragment.app.Fragment
 import android.view.View
 import android.widget.Toast
 import com.demo.securechatcapstone.R
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.functions.FirebaseFunctions
+import com.google.firebase.functions.ktx.functions
+import com.google.firebase.ktx.Firebase
 import kotlinx.android.synthetic.main.fragment_unlock.*
 
 class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
@@ -21,19 +25,41 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
 
     override lateinit var presenter: UnlockContract.Presenter
 
+    private lateinit var functions: FirebaseFunctions
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-//        showProgress(true)
+        functions = Firebase.functions
         if (!presenter.isUserInfoExistInDevice()) {
             presenter.loadPrivateInfoFromDB()
         } else {
             setText("Enter password to unlock application")
             btnUnlockSubmit.setOnClickListener {
-                if (presenter.checkUnlockPassword(getPassword())) {
-                    unlockSuccess()
-                } else {
-                    unlockFail()
+                failUnlockCount().addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        if (it.result!! >= 10) {
+                            Toast.makeText(
+                                requireContext(),
+                                "Your account has been disabled for entering the wrong password many times ",
+                                Toast.LENGTH_SHORT
+                            ).show()
+                        } else {
+                            if (presenter.checkUnlockPassword(getPassword())) {
+                                unlockSuccess()
+                            } else {
+                                unlockFail()
+                            }
+                        }
+                    } else {
+                        Toast.makeText(
+                            requireContext(),
+                            "${it.exception?.message}",
+                            Toast.LENGTH_SHORT
+                        )
+                            .show()
+                    }
                 }
+
             }
         }
         btnUnlockLogout.setOnClickListener {
@@ -42,10 +68,41 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
         }
     }
 
-    override fun loadFromRealTimeDBAndUnlock(){
+    private fun failUnlockCount(): Task<Int> {
+        return functions.getHttpsCallable("failUnlockCount").call().continueWith { task ->
+            val data = task.result?.data as HashMap<*, *>
+            val result = data.get("value").toString().toInt()
+            result
+        }
+    }
+
+    private fun countUnlock(flag: Boolean): Task<Int> {
+        val data = hashMapOf("flag" to flag)
+        return functions.getHttpsCallable("countUnlock").call(data).continueWith { task ->
+            val rs = task.result?.data.toString().toInt()
+            rs
+        }
+    }
+
+    override fun loadFromRealTimeDBAndUnlock() {
         setText("You must remember and input unlock password when register user info")
         btnUnlockSubmit.setOnClickListener {
-            presenter.checkSignaturePrivateInfo(getPassword())
+            failUnlockCount().addOnCompleteListener {
+                if (it.isSuccessful) {
+                    if (it.result!! >= 10) {
+                        Toast.makeText(
+                            requireContext(),
+                            "Your account has been disabled for entering the wrong password many times ",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        presenter.checkSignaturePrivateInfo(getPassword())
+                    }
+                } else {
+                    Toast.makeText(requireContext(), "${it.exception?.message}", Toast.LENGTH_SHORT)
+                        .show()
+                }
+            }
         }
     }
 
@@ -82,12 +139,26 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
     }
 
     override fun unlockSuccess() {
-        Toast.makeText(requireContext(), "Unlock Sucessfull!!", Toast.LENGTH_SHORT).show()
-        callback?.toMain()
+        countUnlock(true).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(requireContext(), "Unlock Sucessfull!!", Toast.LENGTH_SHORT).show()
+                callback?.toMain()
+            } else {
+                Toast.makeText(requireContext(), "${it.exception?.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 
     override fun unlockFail() {
-        Toast.makeText(requireContext(), "Unlock Fail!!", Toast.LENGTH_SHORT).show()
+        countUnlock(false).addOnCompleteListener {
+            if (it.isSuccessful) {
+                Toast.makeText(requireContext(), "Unlock Fail!!", Toast.LENGTH_SHORT).show()
+            } else {
+                Toast.makeText(requireContext(), "${it.exception?.message}", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
     }
 
     override fun onDetach() {

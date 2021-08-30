@@ -3,6 +3,7 @@ package com.demo.securechatcapstone.authen
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import com.demo.securechatcapstone.R
 import com.demo.securechatcapstone.authen.otpverify.OTPVerifyFragment
 import com.demo.securechatcapstone.authen.otpverify.OTPVerifyPresenter
@@ -15,7 +16,10 @@ import com.demo.securechatcapstone.authen.unlock.UnlockPresenter
 import com.demo.securechatcapstone.home.AppActivity
 import com.demo.securechatcapstone.localDB.LocalDataSource
 import com.demo.securechatcapstone.model.User
+import com.google.android.gms.tasks.OnCompleteListener
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.GetTokenResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -37,22 +41,31 @@ class MainActivity : AppCompatActivity(), RegisterFragment.Callback,
                 supportFragmentManager.beginTransaction().add(R.id.frame_layout, it).commit()
             }
         } else {
+            firebaseAuth.currentUser!!.getIdToken(true)
+                .addOnCompleteListener(object : OnCompleteListener<GetTokenResult> {
+                    override fun onComplete(task: Task<GetTokenResult>) {
+                        if (task.isSuccessful) {
+                            Log.d("AAA", "${task.result?.token}")
+                        }
+                    }
+                })
+
             val ref = firebaseDatabase.getReference("/users/${firebaseAuth.uid}")
             ref.keepSynced(true)
             ref.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val user = snapshot.getValue(User::class.java)
                     if (user?.username.isNullOrEmpty()) {
-                            val bundle = Bundle()
-                            val phone = firebaseAuth.currentUser!!.phoneNumber
-                            bundle.putString("phone", phone.toString())
-                            RegisterFragment().also {
-                                it.arguments = bundle
-                                RegisterPresenter(it)
-                            }.let {
-                                supportFragmentManager.beginTransaction().add(R.id.frame_layout, it)
-                                    .commit()
-                            }
+                        val bundle = Bundle()
+                        val phone = firebaseAuth.currentUser!!.phoneNumber
+                        bundle.putString("phone", phone.toString())
+                        RegisterFragment().also {
+                            it.arguments = bundle
+                            RegisterPresenter(it)
+                        }.let {
+                            supportFragmentManager.beginTransaction().add(R.id.frame_layout, it)
+                                .commit()
+                        }
                     } else {
                         UnlockFragment().also {
                             UnlockPresenter(

@@ -38,7 +38,7 @@ class UnlockPresenter(val view: UnlockContract.View, appDatabase: AppDatabase) :
     }
 
     override fun loadPrivateInfoFromDB() {
-        val ref = firebaseDatabase.getReference("users/${firebaseAuth.uid}/privateInfo")
+        val ref = firebaseDatabase.getReference("user-private/${firebaseAuth.uid}/privateInfo")
         ref.get().addOnCompleteListener {
             if (it.isSuccessful) {
                 if (it.result?.value != null) {
@@ -137,12 +137,12 @@ class UnlockPresenter(val view: UnlockContract.View, appDatabase: AppDatabase) :
     }
 
     override fun checkSignaturePrivateInfo(password: String) {
-        firebaseDatabase.getReference("users/${firebaseAuth.uid}/privateInfo").get()
+        firebaseDatabase.getReference("user-private/${firebaseAuth.uid}/privateInfo").get()
             .addOnCompleteListener {
                 if (it.isSuccessful) {
                     //Get private info
                     val privateInfo = it.result?.value.toString()
-                    firebaseDatabase.getReference("users/${firebaseAuth.uid}/privateInfoSignature")
+                    firebaseDatabase.getReference("user-private/${firebaseAuth.uid}/privateInfoSignature")
                         .get().addOnCompleteListener {
                             if (it.isSuccessful) {
                                 //Get signature of private info

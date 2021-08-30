@@ -62,8 +62,6 @@ class UserAdapter(
     }
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
-//        holder.textView.text = data[position].username
-//        Picasso.get().load(data[position].profileImage).into(holder.imageView)
         holder.bindData(data[position])
     }
 
