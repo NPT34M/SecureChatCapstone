@@ -12,6 +12,7 @@ import com.demo.securechatcapstone.model.ChatMessage
 import com.demo.securechatcapstone.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import java.lang.StringBuilder
 
 class ChatLogPresenter(val view: ChatLogContract.View, appDatabase: AppDatabase) :
     ChatLogContract.Presenter {
@@ -131,11 +132,8 @@ class ChatLogPresenter(val view: ChatLogContract.View, appDatabase: AppDatabase)
     override fun showKeyExchange(user: User?) {
         val hashKey =
             Hashing().hash(conversationDao.getOneKeyExchange(user?.uid!!), "SHA-256")
-        val i = 0
-        var rs = ""
-        while (i != hashKey.length) {
-            rs += hashKey.substring(i, i + 16)
-        }
+        val rs = hashKey.substring(0, 16) + "\n" + hashKey.substring(16, 32) +
+                "\n" + hashKey.substring(32, 48) + "\n" + hashKey.substring(48)
         view.showKeyExchange(rs)
     }
 

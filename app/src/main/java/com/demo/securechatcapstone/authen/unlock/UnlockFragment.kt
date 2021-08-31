@@ -144,7 +144,7 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
                 Toast.makeText(requireContext(), "Unlock Sucessfull!!", Toast.LENGTH_SHORT).show()
                 callback?.toMain()
             } else {
-                Toast.makeText(requireContext(), "${it.exception?.message}", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "${it.exception?.cause}", Toast.LENGTH_SHORT)
                     .show()
             }
         }
@@ -155,7 +155,7 @@ class UnlockFragment : Fragment(R.layout.fragment_unlock), UnlockContract.View {
             if (it.isSuccessful) {
                 Toast.makeText(requireContext(), "Unlock Fail!!", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(requireContext(), "${it.exception?.message}", Toast.LENGTH_SHORT)
+                Toast.makeText(requireContext(), "${it.exception?.cause}", Toast.LENGTH_SHORT)
                     .show()
             }
         }

@@ -75,7 +75,8 @@ class DailyChatPresenter(val view:DailyChatContract.View,appDatabase: AppDatabas
         if (fromId == null) return
         val fromRef = firebaseDatabase.getReference("/daily-messages/$fromId/$toId").push()
         val toRef = firebaseDatabase.getReference("/daily-messages/$toId/$fromId").push()
-        val cipherText = AESCrypto().encrypt(keyExchange.take(16), string)
+        val hashKeyExchange = Hashing().hash(keyExchange, "SHA-256")
+        val cipherText = AESCrypto().encrypt(hashKeyExchange.take(16), string)
         val chatMessage =
             ChatMessage(
                 fromRef.key!!,
@@ -107,9 +108,10 @@ class DailyChatPresenter(val view:DailyChatContract.View,appDatabase: AppDatabas
                 val messageList = mutableListOf<ChatMessage>()
                 snapshot.children.forEach {
                     val chatMessage = it.getValue(ChatMessage::class.java)
+                    val hashKeyExchange = Hashing().hash(keyExchange!!, "SHA-256")
                     if (chatMessage != null) {
                         chatMessage.text =
-                            AESCrypto().decrypt(keyExchange!!.take(16), chatMessage.text)!!
+                            AESCrypto().decrypt(hashKeyExchange.take(16), chatMessage.text)!!
                         messageList.add(chatMessage)
                     }
                 }
